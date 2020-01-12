@@ -1,0 +1,29 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "make",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "./test"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "debug",
+            "command": "make",
+            "args": [
+                "a.out"
+            ],
+            "options": {
+                "cwd": "./test"
+            }
+        }
+    ]
+}
