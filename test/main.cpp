@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include <algorithm>
 #include <cassert>
 #include <cfloat>
@@ -9,6 +11,7 @@
 #include <functional>
 #include <iostream>
 #include <map>
+#include <numeric>
 #include <queue>
 #include <set>
 #include <stack>
@@ -44,11 +47,19 @@ ll dy[9] = {0, 0, -1, 1, -1, 1, -1, 1, 0};
 
 const ll INF = 1LL << 50;
 
-const ll mod = 1000000007;
+static const long long mod = 1000000007;
 
 int main() {
-  ll n, m;
-  cin >> n >> m;
+  ll n, k;
+  cin >> n >> k;
+  ll sum = 0;
+  rep(i, k) { ll add;
+    cin >> add;
+    sum += add;
+  }
+
+  string ans = (sum >= n) ? "Yes" : "No";
+  cout << ans << endl;
 
   return 0;
 }
