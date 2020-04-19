@@ -19,7 +19,7 @@
 119 X
 120 X
 121 X
-122 O ... １．平方分割を覚えた。２．setでも解いてみた。s.lower_bound(v)を使うべし。lower_bound(s.begin(), s.end(), v)はTLE. コピー発生する？ / セグ木でも解けそう（未）
+122 O ... １．平方分割を覚えた。２．setでも解いてみた。s.lower_bound(v)を使うべし。lower_bound(s.begin(), s.end(), v)はTLE. / セグ木でも解けそう（未）
 123 X
 124 X
 125 X
