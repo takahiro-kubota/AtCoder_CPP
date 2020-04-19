@@ -9,6 +9,7 @@
 #include <cfloat>
 #include <complex>
 #include <functional>
+#include <iomanip>
 #include <iostream>
 #include <map>
 #include <numeric>
@@ -24,6 +25,7 @@ using namespace std;
 #define chmax(x, y) x = max(x, y)
 #define chmin(x, y) x = min(x, y)
 #define rep(i, n) for (ll i = 0; i < (n); ++i)
+#define repLRE(i, l, r) for (ll i = (l); i <= (r); ++i)
 #define Sort(v) sort(v.begin(), v.end())
 #define Reverse(v) reverse(v.begin(), v.end())
 #define Lower_bound(v, x) \
@@ -45,21 +47,15 @@ using dqll = deque<ll>;
 ll dx[9] = {-1, 1, 0, 0, -1, -1, 1, 1, 0};
 ll dy[9] = {0, 0, -1, 1, -1, 1, -1, 1, 0};
 
+/* Macros reg. ends here */
+
 const ll INF = 1LL << 50;
 
 static const long long mod = 1000000007;
 
 int main() {
-  ll n, k;
-  cin >> n >> k;
-  ll sum = 0;
-  rep(i, k) { ll add;
-    cin >> add;
-    sum += add;
-  }
-
-  string ans = (sum >= n) ? "Yes" : "No";
-  cout << ans << endl;
+  ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  cout << fixed << setprecision(15);
 
   return 0;
 }
