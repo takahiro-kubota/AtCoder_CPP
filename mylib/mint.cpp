@@ -8,9 +8,6 @@ using namespace std;
 typedef long long ll;
 typedef unsigned long long ull;
 
-int N, K;
-vector<int> G[100005];
-
 static const long long mod = 1000000007;
 struct mint {
   ll x;

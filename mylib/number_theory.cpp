@@ -25,3 +25,22 @@ map<ll, ll> prime_factor(ll n) {
   if (n != 1) ret[n] = 1;
   return ret;
 }
+
+ll mynchoosek(ll n, ll r) {
+  if (n < r) return 0;
+  if (n - r < r) r = n - r;
+  ll ret = 1;
+  for (ll i = 0; i < r; i++) {
+    ret *= (n--);
+    ret /= i + 1;
+  }
+  return ret;
+}
+
+ll ipow(ll x, ll t) {
+  if (t == 0) return 1;
+  ll a = ipow(x, t >> 1);
+  a *= a;
+  if (t & 1) a *= x;
+  return a;
+}

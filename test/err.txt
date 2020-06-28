@@ -1,0 +1,401 @@
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h: In instantiation of ‘void __gnu_cxx::new_allocator<_Tp>::construct(_Up*, _Args&& ...) [with _Up = std::tuple<long long int, long long int, long long int>; _Args = {int, int}; _Tp = std::tuple<long long int, long long int, long long int>]’:
+/usr/include/c++/7/bits/alloc_traits.h:475:4:   required from ‘static void std::allocator_traits<std::allocator<_Tp> >::construct(std::allocator_traits<std::allocator<_Tp> >::allocator_type&, _Up*, _Args&& ...) [with _Up = std::tuple<long long int, long long int, long long int>; _Args = {int, int}; _Tp = std::tuple<long long int, long long int, long long int>; std::allocator_traits<std::allocator<_Tp> >::allocator_type = std::allocator<std::tuple<long long int, long long int, long long int> >]’
+/usr/include/c++/7/bits/vector.tcc:100:30:   required from ‘std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::emplace_back(_Args&& ...) [with _Args = {int, int}; _Tp = std::tuple<long long int, long long int, long long int>; _Alloc = std::allocator<std::tuple<long long int, long long int, long long int> >; std::vector<_Tp, _Alloc>::reference = std::tuple<long long int, long long int, long long int>&]’
+/usr/include/c++/7/bits/stl_queue.h:613:4:   required from ‘void std::priority_queue<_Tp, _Sequence, _Compare>::emplace(_Args&& ...) [with _Args = {int, int}; _Tp = std::tuple<long long int, long long int, long long int>; _Sequence = std::vector<std::tuple<long long int, long long int, long long int> >; _Compare = std::greater<std::tuple<long long int, long long int, long long int> >]’
+main.cpp:77:18:   required from here
+/usr/include/c++/7/ext/new_allocator.h:136:4: error: no matching function for call to ‘std::tuple<long long int, long long int, long long int>::tuple(int, int)’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:828:11: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, std::tuple<_Args2 ...>&&)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:828:11: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:813:2: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, std::tuple<_Args2 ...>&&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:813:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:798:11: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_ConstructibleTuple<_UElements ...>() && (! std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const std::tuple<_Args2 ...>&)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:798:11: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:783:2: note: candidate: template<class _Alloc, class _Dummy, class ... _UElements, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_ConstructibleTuple<_UElements ...>() && std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tail ...> >::value)), long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<tuple<_Tail ...>&&>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const std::tuple<_Args2 ...>&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:783:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:771:2: note: candidate: template<class _Alloc> std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, std::tuple<_Elements>&&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a, tuple&& __in)
+  ^~~~~
+/usr/include/c++/7/tuple:771:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:767:2: note: candidate: template<class _Alloc> std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const std::tuple<_Elements>&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a, const tuple& __in)
+  ^~~~~
+/usr/include/c++/7/tuple:767:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:761:11: note: candidate: template<class _Alloc, class ... _UElements, typename std::enable_if<(std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>())), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, _UElements&& ...)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:761:11: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   cannot convert ‘std::forward<int>((* & __args#0))’ (type ‘int’) to type ‘std::allocator_arg_t’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:750:2: note: candidate: template<class _Alloc, class ... _UElements, typename std::enable_if<(std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, _UElements&& ...)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:750:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   cannot convert ‘std::forward<int>((* & __args#0))’ (type ‘int’) to type ‘std::allocator_arg_t’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:740:11: note: candidate: template<class _Alloc, class _Dummy, typename std::enable_if<(std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ConstructibleTuple<long long int, long long int, long long int>() && (! std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<long long int, long long int, long long int>())), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const _Elements& ...)
+  explicit tuple(allocator_arg_t __tag, const _Alloc& __a,
+           ^~~~~
+/usr/include/c++/7/tuple:740:11: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 5 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:729:2: note: candidate: template<class _Alloc, class _Dummy, typename std::enable_if<(std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ConstructibleTuple<long long int, long long int, long long int>() && std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<long long int, long long int, long long int>()), bool>::type <anonymous> > std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&, const _Elements& ...)
+  tuple(allocator_arg_t __tag, const _Alloc& __a,
+  ^~~~~
+/usr/include/c++/7/tuple:729:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 5 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:719:2: note: candidate: template<class _Alloc> std::tuple<_Elements>::tuple(std::allocator_arg_t, const _Alloc&)
+  tuple(allocator_arg_t __tag, const _Alloc& __a)
+  ^~~~~
+/usr/include/c++/7/tuple:719:2: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   cannot convert ‘std::forward<int>((* & __args#0))’ (type ‘int’) to type ‘std::allocator_arg_t’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:713:28: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<tuple<_Tps ...>&&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(std::tuple<_Args1 ...>&&)
+         explicit constexpr tuple(tuple<_UElements...>&& __in)
+                            ^~~~~
+/usr/include/c++/7/tuple:713:28: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   mismatched types ‘std::tuple<_Tps ...>’ and ‘int’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:702:19: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<tuple<_Tps ...>&&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(std::tuple<_Args1 ...>&&)
+         constexpr tuple(tuple<_UElements...>&& __in)
+                   ^~~~~
+/usr/include/c++/7/tuple:702:19: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   mismatched types ‘std::tuple<_Tps ...>’ and ‘int’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:690:28: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_ConstructibleTuple<_UElements ...>() && (! std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<_UElements ...>())) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<const tuple<_Tps ...>&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const std::tuple<_Args1 ...>&)
+         explicit constexpr tuple(const tuple<_UElements...>& __in)
+                            ^~~~~
+/usr/include/c++/7/tuple:690:28: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   mismatched types ‘const std::tuple<_Tps ...>’ and ‘int’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:678:19: note: candidate: template<class ... _UElements, class _Dummy, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_ConstructibleTuple<_UElements ...>() && std::_TC<((3 == sizeof... (_UElements)) && (! std::is_same<std::tuple<long long int, long long int, long long int>, std::tuple<_Tps ...> >::value)), long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<_UElements ...>()) && std::_TC<(std::is_same<_Dummy, void>::value && (3 == 1)), long long int, long long int, long long int>::_NonNestedTuple<const tuple<_Tps ...>&>()), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const std::tuple<_Args1 ...>&)
+         constexpr tuple(const tuple<_UElements...>& __in)
+                   ^~~~~
+/usr/include/c++/7/tuple:678:19: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   mismatched types ‘const std::tuple<_Tps ...>’ and ‘int’
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:662:17: note: candidate: constexpr std::tuple<_Elements>::tuple(std::tuple<_Elements>&&) [with _Elements = {long long int, long long int, long long int}]
+       constexpr tuple(tuple&&) = default;
+                 ^~~~~
+/usr/include/c++/7/tuple:662:17: note:   candidate expects 1 argument, 2 provided
+/usr/include/c++/7/tuple:660:17: note: candidate: constexpr std::tuple<_Elements>::tuple(const std::tuple<_Elements>&) [with _Elements = {long long int, long long int, long long int}]
+       constexpr tuple(const tuple&) = default;
+                 ^~~~~
+/usr/include/c++/7/tuple:660:17: note:   candidate expects 1 argument, 2 provided
+/usr/include/c++/7/tuple:657:28: note: candidate: template<class ... _UElements, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && (! std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>())) && (3 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(_UElements&& ...)
+         explicit constexpr tuple(_UElements&&... __elements)
+                            ^~~~~
+/usr/include/c++/7/tuple:657:28: note:   template argument deduction/substitution failed:
+/usr/include/c++/7/tuple:656:21: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+         bool>::type=false>
+                     ^~~~~
+/usr/include/c++/7/tuple:656:21: note: invalid template non-type parameter
+/usr/include/c++/7/tuple:646:19: note: candidate: template<class ... _UElements, typename std::enable_if<((std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_MoveConstructibleTuple<_UElements ...>() && std::_TC<((3 == sizeof... (_UElements)) && std::_TC<(sizeof... (_UElements) == 1), long long int, long long int, long long int>::_NotSameTuple<_UElements ...>()), long long int, long long int, long long int>::_ImplicitlyMoveConvertibleTuple<_UElements ...>()) && (3 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(_UElements&& ...)
+         constexpr tuple(_UElements&&... __elements)
+                   ^~~~~
+/usr/include/c++/7/tuple:646:19: note:   template argument deduction/substitution failed:
+/usr/include/c++/7/tuple:645:21: error: no type named ‘type’ in ‘struct std::enable_if<false, bool>’
+         bool>::type=true>
+                     ^~~~
+/usr/include/c++/7/tuple:645:21: note: invalid template non-type parameter
+/usr/include/c++/7/tuple:619:26: note: candidate: template<class _Dummy, typename std::enable_if<((std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ConstructibleTuple<long long int, long long int, long long int>() && (! std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<long long int, long long int, long long int>())) && (3 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const _Elements& ...)
+       explicit constexpr tuple(const _Elements&... __elements)
+                          ^~~~~
+/usr/include/c++/7/tuple:619:26: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:608:19: note: candidate: template<class _Dummy, typename std::enable_if<((std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ConstructibleTuple<long long int, long long int, long long int>() && std::_TC<std::is_same<_Dummy, void>::value, long long int, long long int, long long int>::_ImplicitlyConvertibleTuple<long long int, long long int, long long int>()) && (3 >= 1)), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple(const _Elements& ...)
+         constexpr tuple(const _Elements&... __elements)
+                   ^~~~~
+/usr/include/c++/7/tuple:608:19: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 3 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:591:26: note: candidate: template<class _Dummy, typename std::enable_if<(std::tuple<long long int, long long int, long long int>::_TC2<_Dummy>::_DefaultConstructibleTuple() && (! std::tuple<long long int, long long int, long long int>::_TC2<_Dummy>::_ImplicitlyDefaultConstructibleTuple())), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple()
+       explicit constexpr tuple()
+                          ^~~~~
+/usr/include/c++/7/tuple:591:26: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 0 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/c++/7/bits/unique_ptr.h:37:0,
+                 from /usr/include/c++/7/bits/locale_conv.h:41,
+                 from /usr/include/c++/7/locale:43,
+                 from /usr/include/c++/7/iomanip:43,
+                 from main.cpp:12:
+/usr/include/c++/7/tuple:581:17: note: candidate: template<class _Dummy, typename std::enable_if<std::tuple<long long int, long long int, long long int>::_TC2<_Dummy>::_ImplicitlyDefaultConstructibleTuple(), bool>::type <anonymous> > constexpr std::tuple<_Elements>::tuple()
+       constexpr tuple()
+                 ^~~~~
+/usr/include/c++/7/tuple:581:17: note:   template argument deduction/substitution failed:
+In file included from /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:33:0,
+                 from /usr/include/c++/7/bits/allocator.h:46,
+                 from /usr/include/c++/7/string:41,
+                 from /usr/include/c++/7/bits/locale_classes.h:40,
+                 from /usr/include/c++/7/bits/ios_base.h:41,
+                 from /usr/include/c++/7/iomanip:40,
+                 from main.cpp:12:
+/usr/include/c++/7/ext/new_allocator.h:136:4: note:   candidate expects 0 arguments, 2 provided
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [a.out] Error 1

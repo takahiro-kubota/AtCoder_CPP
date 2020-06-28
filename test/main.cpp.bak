@@ -29,7 +29,6 @@ using namespace std;
 #define repLRE(i, l, r) for (ll i = (l); i <= (r); ++i)
 #define rrepLRE(i, l, r) for (ll i = (l); i >= (r); --i)
 #define Sort(v) sort(v.begin(), v.end())
-#define rSort(v) sort(v.rbegin(), v.rend())
 #define Reverse(v) reverse(v.begin(), v.end())
 #define Lower_bound(v, x) \
   distance(v.begin(), lower_bound(v.begin(), v.end(), x))
@@ -53,6 +52,7 @@ ll dy[9] = {0, 0, -1, 1, -1, 1, -1, 1, 0};
 /* Macros reg. ends here */
 
 const ll INF = 1LL << 50;
+
 static const long long mod = 1000000007;
 struct mint {
   ll x;
@@ -118,20 +118,74 @@ class modutils {
   }
   mint fac(ll n) { return fact[n]; }
 };
+
 int main() {
-  // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll n, m;
-  cin >> n >> m;
-  modutils mu(m + 1);
+  ll n;
+  cin >> n;
+  map<P, ll> mp;
+  rep(i, n) {
+    ll a, b;
+    cin >> a >> b;
+    if (a == 0 && b == 0) {
+      mp[P(0, 0)]++;
+      continue;
+    }
+    if (a == 0) {
+      mp[P(0, 1)]++;
+      continue;
+    }
+    if (b == 0) {
+      mp[P(1, 0)]++;
+      continue;
+    }
+    ll g = gcd(a, b);
+    a /= g;
+    b /= g;
+    if (b < 0) {
+      a *= -1;
+      b *= -1;
+    }
+    mp[P(a, b)]++;
+  }
 
-  mint juee = 0;
-  repLRE(i, 1, n) { juee += mu.perm(m-1,i-1) * mu.perm(m-i, n-i-1); }
-
-  mint ysfk = mu.perm(m, n) * (mu.perm(m, n) - juee);
-
-  cout << ysfk.x << endl;
+  modutils mu;
+  mint ans(1);
+  mint hose = 0;
+  ll cnt;
+  P q;
+  for (auto& kv : mp) {
+    P p = kv.first;
+    if (kv.second == 0) continue;
+    cnt = 0;
+    if (p == P(0, 0)) {
+      hose = mp[p];
+      continue;
+    } else if (p == P(1, 0)) {
+      q = P(0, 1);
+    } else if (p == P(0, 1)) {
+      q = P(1, 0);
+    } else {
+      ll ac = -p.second, bc = p.first;
+      if (ac < 0 && bc < 0) {
+        ac *= -1;
+        bc *= -1;
+      }
+      q = P(ac, bc);
+    }
+    cnt = 0;
+    if (mp.count(q) != 0) {
+      cnt = mp[q];
+      mp[q] = 0;
+    }
+    //cout << p.first << " " << p.second << endl;
+    ans *= (mu.pow(2, mp[p]) + mu.pow(2, cnt) - 1);
+  }
+  ans += hose;
+  ans -= 1;
+  cout << ans.x << endl;
 
   return 0;
 }
