@@ -9,35 +9,28 @@ typedef long long ll;
 typedef unsigned long long ull;
 
 static const long long mod = 1000000007;
+
 struct mint {
-  ll x;
-  mint(ll x = 0) : x(x % mod) {}
+  ll x;  // typedef long long ll;
+  mint(ll x = 0) : x((x % mod + mod) % mod) {}
+  mint operator-() const { return mint(-x); }
   mint& operator+=(const mint a) {
-    (x += a.x) %= mod;
+    if ((x += a.x) >= mod) x -= mod;
     return *this;
   }
   mint& operator-=(const mint a) {
-    (x += mod - a.x) %= mod;
+    if ((x += mod - a.x) >= mod) x -= mod;
     return *this;
   }
   mint& operator*=(const mint a) {
     (x *= a.x) %= mod;
     return *this;
   }
-  mint operator+(const mint a) const {
-    mint ret(*this);
-    return ret += a;
-  }
-  mint operator-(const mint a) const {
-    mint ret(*this);
-    return ret -= a;
-  }
-  mint operator*(const mint a) const {
-    mint ret(*this);
-    return ret *= a;
-  }
+  mint operator+(const mint a) const { return mint(*this) += a; }
+  mint operator-(const mint a) const { return mint(*this) -= a; }
+  mint operator*(const mint a) const { return mint(*this) *= a; }
   mint pow(ll t) const {
-    if (t == 0) return mint(1);
+    if (!t) return 1;
     mint a = pow(t >> 1);
     a *= a;
     if (t & 1) a *= *this;
@@ -46,14 +39,14 @@ struct mint {
 
   // for prime mod
   mint inv() const { return pow(mod - 2); }
-  mint& operator/=(const mint a) { return (*this) *= a.inv(); }
-  mint operator/(const mint a) const {
-    mint ret(*this);
-    return ret /= a;
-  }
+  mint& operator/=(const mint a) { return *this *= a.inv(); }
+  mint operator/(const mint a) const { return mint(*this) /= a; }
 };
+istream& operator>>(istream& is, mint& a) { return is >> a.x; }
+ostream& operator<<(ostream& os, const mint& a) { return os << a.x; }
+
 class modutils {
- vector<mint> fact, invfact;
+  vector<mint> fact, invfact;
 
  public:
   modutils(int n = 200005) : fact(n + 1), invfact(n + 1) {
