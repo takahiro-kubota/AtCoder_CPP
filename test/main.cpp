@@ -53,85 +53,55 @@ ll dy[9] = {0, 0, -1, 1, -1, 1, -1, 1, 0};
 /* Macros reg. ends here */
 
 const ll INF = 1LL << 50;
-static const long long mod = 1000000007;
-struct mint {
-  ll x;
-  mint(ll x = 0) : x(x % mod) {}
-  mint& operator+=(const mint a) {
-    (x += a.x) %= mod;
-    return *this;
-  }
-  mint& operator-=(const mint a) {
-    (x += mod - a.x) %= mod;
-    return *this;
-  }
-  mint& operator*=(const mint a) {
-    (x *= a.x) %= mod;
-    return *this;
-  }
-  mint operator+(const mint a) const {
-    mint ret(*this);
-    return ret += a;
-  }
-  mint operator-(const mint a) const {
-    mint ret(*this);
-    return ret -= a;
-  }
-  mint operator*(const mint a) const {
-    mint ret(*this);
-    return ret *= a;
-  }
-  mint pow(ll t) const {
-    if (t == 0) return mint(1);
-    mint a = pow(t >> 1);
-    a *= a;
-    if (t & 1) a *= *this;
-    return a;
-  }
 
-  // for prime mod
-  mint inv() const { return pow(mod - 2); }
-  mint& operator/=(const mint a) { return (*this) *= a.inv(); }
-  mint operator/(const mint a) const {
-    mint ret(*this);
-    return ret /= a;
-  }
-};
-class modutils {
-  vector<mint> fact, invfact;
-
- public:
-  modutils(int n = 200005) : fact(n + 1), invfact(n + 1) {
-    fact[0] = 1;
-    for (int i = 1; i <= n; i++) fact[i] = fact[i - 1] * i;
-    invfact[n] = fact[n].inv();
-    for (int i = n; i >= 1; i--) invfact[i - 1] = invfact[i] * i;
-  }
-  mint pow(mint x, ll n) { return x.pow(n); }
-  mint comb(ll n, ll k) {
-    if (n < 0 || k < 0 || n < k) return 0;
-    return fact[n] * invfact[k] * invfact[n - k];
-  }
-  mint perm(ll n, ll k) {
-    if (n < 0 || k < 0 || n < k) return 0;
-    return fact[n] * invfact[n - k];
-  }
-  mint fac(ll n) { return fact[n]; }
-};
 int main() {
   // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll n, m;
-  cin >> n >> m;
-  modutils mu(m + 1);
+  ll n, k;
+  cin >> n >> k;
 
-  mint juee = 0;
-  repLRE(i, 1, n) { juee += mu.perm(m-1,i-1) * mu.perm(m-i, n-i-1); }
+  vll BIT(n + 2, 0);  // 1-indexed
 
-  mint ysfk = mu.perm(m, n) * (mu.perm(m, n) - juee);
+  auto badd = [&](ll i, ll x) {
+    while (i <= n + 1) {
+      BIT[i] += x;
+      i += i & -i;
+    }
+  };
+  auto bget = [&](ll i) {
+    ll ret = 0;
+    while (i > 0) {
+      ret += BIT[i];
+      i -= i & -i;
+    }
+    return ret;
+  };
 
-  cout << ysfk.x << endl;
+  vll csum(n + 1, 0), bs(n + 1);
+  bs[0] = 0;
+  rep(i, n) {
+    ll a;
+    cin >> a;
+    csum[i + 1] = csum[i] + a;
+    bs[i+1] = csum[i+1] - k*(i+1);
+  }
+
+  {  // compress x
+    map<ll, ll> mp;
+    rep(i, n+1) mp[bs[i]] = 0;
+    ll j = 1;
+    for (auto& x : mp) x.second = j++;
+    rep(i, n+1) bs[i] = mp[bs[i]];
+  }
+
+  ll ans = 0;
+  rep(i, n+1){
+    ans += bget(bs[i]);
+    badd(bs[i], 1);
+  }
+
+  cout << ans << endl;
 
   return 0;
 }

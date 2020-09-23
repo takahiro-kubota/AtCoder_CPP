@@ -65,16 +65,16 @@ int main() {
   vll BIT(n + 1, 0);  // 1-indexed
 
   auto badd = [&](ll i, ll x) {
-    while (i > 0) {
+    while (i <= n) {
       BIT[i] += x;
-      i -= i & -i;
+      i += i & -i;
     }
   };
   auto bget = [&](ll i) {
     ll ret = 0;
-    while (i <= n) {
+    while (i > 0) {
       ret += BIT[i];
-      i += i & -i;
+      i -= i & -i;
     }
     return ret;
   };
