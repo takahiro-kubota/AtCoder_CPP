@@ -20,8 +20,10 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
 using namespace std;
+
+#include <atcoder/all>
+using namespace atcoder;
 
 #define chmax(x, y) x = max(x, y)
 #define chmin(x, y) x = min(x, y)
@@ -58,50 +60,38 @@ int main() {
   // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll n, k;
-  cin >> n >> k;
+  ll n, m;
+  cin >> n >> m;
 
-  vll BIT(n + 2, 0);  // 1-indexed
+  vll ls(m), rs(m), as(m), bs(m);
 
-  auto badd = [&](ll i, ll x) {
-    while (i <= n + 1) {
-      BIT[i] += x;
-      i += i & -i;
-    }
-  };
-  auto bget = [&](ll i) {
-    ll ret = 0;
-    while (i > 0) {
-      ret += BIT[i];
-      i -= i & -i;
-    }
-    return ret;
-  };
+  vll ans(n, 0);
+  rep(i, m){
+    cin >> ls[i] >> rs[i] >> as[i] >> bs[i];
+    ll l = ls[i]-1, r = rs[i]-1;
+    assert(r >= l);
+    repLRE(j, l, r) ans[j] += as[i] + (j - l)*bs[i];
+    //rep(j, n) cout << ans[j] << (j == n - 1 ? '\n' : ' ');
+  }
+  rep(i, n) cout << ans[i] << (i == n - 1 ? '\n' : ' ');
 
-  vll csum(n + 1, 0), bs(n + 1);
-  bs[0] = 0;
+  vll ans2(n+1, 0);
+  vll ofst(n+1, 0);
+  rep(i, m){
+    ll l = ls[i]-1, r = rs[i]-1;
+    ans2[l+1] += bs[i];
+    ans2[r+1] -= bs[i];
+    ofst[l]   += as[i];
+    ofst[r+1] -= as[i] + (r - l)*bs[i];
+  }
+  rep(i, n) ans2[i+1] += ans2[i];
+  rep(i, n) ans2[i]   += ofst[i];
+  rep(i, n) ans2[i+1] += ans2[i];
   rep(i, n) {
-    ll a;
-    cin >> a;
-    csum[i + 1] = csum[i] + a;
-    bs[i+1] = csum[i+1] - k*(i+1);
+    assert(ans[i] == ans2[i]);
+    cout << ans2[i] << (i == n - 1 ? '\n' : ' ');
   }
 
-  {  // compress x
-    map<ll, ll> mp;
-    rep(i, n+1) mp[bs[i]] = 0;
-    ll j = 1;
-    for (auto& x : mp) x.second = j++;
-    rep(i, n+1) bs[i] = mp[bs[i]];
-  }
-
-  ll ans = 0;
-  rep(i, n+1){
-    ans += bget(bs[i]);
-    badd(bs[i], 1);
-  }
-
-  cout << ans << endl;
 
   return 0;
 }

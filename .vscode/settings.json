@@ -4,6 +4,7 @@
         "ostream": "cpp",
         "iostream": "cpp",
         "algorithm": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "iomanip": "cpp"
     }
 }

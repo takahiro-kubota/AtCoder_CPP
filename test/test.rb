@@ -1,24 +1,11 @@
-n, k = gets.split.map(&:to_i)
+n = 30
+m = 10
 
-nstr = n.to_s
-
-lst = []
-mstr = ""
-ans = 10**17
-cands = []
-nstr.length.times do |i|
-    if lst.include?(nstr[i])
-        mstr += nstr[i]
-    elsif k == 1
-        
-    elsif k > 1
-        lst << nstr[i]
-        mstr += nstr[i]
-        k -= 1
-    else
-
-    end
-    ans = 0 if i == nstr.length - 1
+puts "#{n} #{m}" 
+m.times do 
+    l = rand(n) + 1
+    r = l + rand(n - l) + 1
+    a = rand(10**9)
+    b = rand(10**9)
+    puts "#{l} #{r} #{a} #{b}"
 end
-
-puts ans
