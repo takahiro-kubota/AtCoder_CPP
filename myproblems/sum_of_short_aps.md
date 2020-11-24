@@ -8,10 +8,10 @@
     l_M r_M a_M b_M 
 
 ## constraints
-for all $i (1 \le i \le M)$,
-- $1 \le l_i \le r_i \le n$
-- $0 \le a_i, b_i \le 10^{9}$
-- $n \le 10^{5}$
+- for all $i (1 \le i \le M)$,
+    - $1 \le l_i \le r_i \le n$
+    - $0 \le a_i, b_i \le 10^{9}$
+    - $n \le 10^{5}$
 
 ## problem
 - An arithmetic sequence $c_i(n)$ is defined as follows:
