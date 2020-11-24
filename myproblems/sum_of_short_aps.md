@@ -1,11 +1,11 @@
 # Sum of Short Arithmetic Sequences
 
 ## input
-$N$ $M$
-$l_1$ $r_1$ $a_1$ $b_1$ 
-$l_2$ $r_2$ $a_2$ $b_2$ 
-...
-$l_M$ $r_M$ $a_M$ $b_M$ 
+    N M
+    l_1 r_1 a_1 b_1
+    l_2 r_2 a_2 b_2
+    ...
+    l_M r_M a_M b_M 
 
 ## constraints
 for all $i (1 \le i \le M)$,
@@ -20,7 +20,7 @@ for all $i (1 \le i \le M)$,
 - Answer $d_n := \sum_{i=1}^{M}c_i(n)$ for $1 \le n \le N$.
 
 ## output
-- $d_1$ $d_2$ ... $d_n$
+    d_1 d_2 ... d_n
 
 ## sample input 1
     10 3
@@ -29,6 +29,13 @@ for all $i (1 \le i \le M)$,
     2 9 5 1
 ## sample output 1
     3 13 19 25 9 19 10 11 12 0
+
+## explaration of sample 1
+    5 6 1 9 ->  0  0  0  0  1 10  0  0  0  0
+    1 4 3 5 ->  3  8 13 18  0  0  0  0  0  0
+    2 9 5 1 ->  0  5  6  7  8  9 10 11 12  0
+    ----------------------------------------
+    sum     ->  3 13 19 25  9 19 10 11 12  0
 
 ## sample input 2
     30 10
