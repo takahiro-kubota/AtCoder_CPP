@@ -1,0 +1,47 @@
+<h1 id="sum-of-short-arithmetic-sequences">Sum of Short Arithmetic Sequences</h1>
+<h2 id="input">input</h2>
+<pre><code>N M
+l_1 r_1 a_1 b_1
+l_2 r_2 a_2 b_2
+...
+l_M r_M a_M b_M </code></pre>
+<h2 id="constraints">constraints</h2>
+<p>for all <span class="math inline"><em>i</em>(1 ≤ <em>i</em> ≤ <em>M</em>)</span>, - <span class="math inline">1 ≤ <em>l</em><sub><em>i</em></sub> ≤ <em>r</em><sub><em>i</em></sub> ≤ <em>n</em></span> - <span class="math inline">0 ≤ <em>a</em><sub><em>i</em></sub>, <em>b</em><sub><em>i</em></sub> ≤ 10<sup>9</sup></span> - <span class="math inline"><em>n</em> ≤ 10<sup>5</sup></span></p>
+<h2 id="problem">problem</h2>
+<ul class="incremental">
+<li>An arithmetic sequence <span class="math inline"><em>c</em><sub><em>i</em></sub>(<em>n</em>)</span> is defined as follows:
+<ul class="incremental">
+<li><span class="math inline"><em>c</em><sub><em>i</em></sub>(<em>n</em>) = <em>a</em><sub><em>i</em></sub> + (<em>n</em> − <em>l</em><sub><em>i</em></sub>)<em>b</em><sub><em>i</em></sub></span> if <span class="math inline"><em>l</em><sub><em>i</em></sub> ≤ <em>n</em> ≤ <em>r</em><sub><em>i</em></sub></span>;</li>
+<li>otherwise, <span class="math inline"><em>c</em><sub><em>i</em></sub> = 0</span>.</li>
+</ul></li>
+<li>Answer <span class="math inline">$d_n := \sum_{i=1}^{M}c_i(n)$</span> for <span class="math inline">1 ≤ <em>n</em> ≤ <em>N</em></span>.</li>
+</ul>
+<h2 id="output">output</h2>
+<pre><code>d_1 d_2 ... d_n</code></pre>
+<h2 id="sample-input-1">sample input 1</h2>
+<pre><code>10 3
+5 6 1 9
+1 4 3 5
+2 9 5 1</code></pre>
+<h2 id="sample-output-1">sample output 1</h2>
+<pre><code>3 13 19 25 9 19 10 11 12 0</code></pre>
+<h2 id="explaration-of-sample-1">explaration of sample 1</h2>
+<pre><code>5 6 1 9 -&gt;  0  0  0  0  1 10  0  0  0  0
+1 4 3 5 -&gt;  3  8 13 18  0  0  0  0  0  0
+2 9 5 1 -&gt;  0  5  6  7  8  9 10 11 12  0
+----------------------------------------
+sum     -&gt;  3 13 19 25  9 19 10 11 12  0</code></pre>
+<h2 id="sample-input-2">sample input 2</h2>
+<pre><code>30 10
+7 11 741418158 816120192
+21 25 85128093 364230755
+28 30 436646602 229921032
+22 27 453732164 970712515
+2 25 577256120 737113481
+19 30 211559846 148336710
+5 10 200471044 653260628
+5 19 715856743 162570090
+13 26 174471563 907211748
+2 7 746181075 357975595</code></pre>
+<h2 id="sample-output-2">sample output 2</h2>
+<pre><code>0 1323437195 2418526271 3513615347 5525032210 7435952004 10088289956 9921295297 12290359688 14659424079 12908453658 9802238303 10876393437 12683288756 14490184075 16297079394 18103974713 19910870032 21929325197 20730149133 22607939165 25218564023 28346169232 31473774441 34601379650 17554723327 6705548265 1983236838 2361494580 2739752322</code></pre>
