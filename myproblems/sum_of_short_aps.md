@@ -17,7 +17,7 @@
 ## problem
 - An arithmetic sequence $c_i(n)$ is defined as follows:
     - $c_i(n) = a_i + (n - l_i)b_i$ if $l_i \le n \le r_i$;
-    - otherwise, $c_i = 0$.
+    - otherwise, $c_i(n) = 0$.
 - Answer $d_n := \sum_{i=1}^{M}c_i(n)$ for $1 \le n \le N$.
 
 ## output
@@ -31,7 +31,7 @@
 ## sample output 1
     3 13 19 25 9 19 10 11 12 0
 
-## explaration of sample 1
+## explanation of sample 1
     5 6 1 9 ->  0  0  0  0  1 10  0  0  0  0
     1 4 3 5 ->  3  8 13 18  0  0  0  0  0  0
     2 9 5 1 ->  0  5  6  7  8  9 10 11 12  0
