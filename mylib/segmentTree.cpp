@@ -1,60 +1,66 @@
-template <typename T>
-struct SegTree {
-  ll n, ofst;
-  vector<T> arr;
+using S = long long;
 
-  SegTree(const ll _n) {
+struct SegTree {
+  int n, ofst;
+  vector<S> as;
+
+  const S E = 0;
+  S op(S x, S y){
+    return x ^ y;
+  }
+
+  SegTree(const int _n) {
     n = 1;
     while (n < 2 * _n) n <<= 1;
-    arr.assign(n, INF);
+    as.assign(n, E);
     ofst = n >> 1;
   }
 
-  void update(ll i, T x) {
-    i += ofst;
-    arr[i] = x;
+  void set(int p, S x) {
+    int k = p + ofst;
+    as[k] = x;
     while (true) {
-      i /= 2;
-      if (i == 0) break;
-      arr[i] = min(arr[2 * i], arr[2 * i + 1]);
+      k /= 2;
+      if (k == 0) break;
+      as[k] = op(as[2 * k], as[2 * k + 1]);
     }
   }
 
-  T get(ll l, ll r) { // [l, r)
-    T ret = INF;
+  S prod(int l, int r) { // [l, r)
     l += ofst, r += ofst;
+    S sml = E, smr = E;
     while (l < r) {
       if (l % 2 == 1) {
-        chmin(ret, arr[l]);
+        sml = op(sml, as[l]);
         l++;
       }
-      l /= 2;
       if (r % 2 == 1) {
-        chmin(ret, arr[r - 1]);
+        smr = op(as[r - 1], smr);
         r--;
       }
-      r /= 2;
+      l >>= 1;
+      r >>= 1;
     }
-    return ret;
+    return op(sml, smr);
   }
 };
 
 // range update, one-point minimum
 // template <typename T>
 // struct SegTree {
-//   ll n, ofst;
+//   int n, ofst;
 //   vector<T> arr;
 
-//   SegTree(const ll _n) {
+//   SegTree(const int _n) {
 //     n = 1;
 //     while (n < 2 * _n) n <<= 1;
 //     arr.assign(n, INF);
 //     ofst = n >> 1;
 //   }
 
-//   ll get(ll i) {
+//   int get(int i) {
 //     i += ofst;
-//     ll ret = arr[i];    
+//     int ret = arr[i];    
 //     while (true) {
 //       i /= 2;
 //       if (i == 0) break;
@@ -63,7 +69,7 @@ struct SegTree {
 //     return ret;
 //   }
 
-//   void update(ll l, ll r, ll x) { // [l, r)
+//   void update(int l, int r, int x) { // [l, r)
 //     l += ofst, r += ofst;
 //     while (l < r) {
 //       if (l % 2 == 1) {
