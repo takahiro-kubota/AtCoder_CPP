@@ -68,153 +68,96 @@ inline bool chmin(T& a, T b) {
   return 0;
 }
 
-using mint = modint998244353;
-
 /* Macros reg. ends here */
 
-const ll INF = 1LL << 50;
+static const long long mod = 1000000007;
 
-using S = pair<int, int>;
-using F = ll;
-
-struct LzyST {
-  int n, d, ofst;
-  vector<S> as;
-  vector<F> lzy;
-
-  const S E = {0, 0};
-  const F id = 0;
-
-  S op(S x, S y){
-    auto [a, b] = x;
-    auto [p, q] = y;
-    return {a + p, b + q};
+struct mint {
+  ll x;  // typedef long long ll;
+  mint(ll x = 0) : x((x % mod + mod) % mod) {}
+  mint operator-() const { return mint(-x); }
+  mint& operator+=(const mint a) {
+    if ((x += a.x) >= mod) x -= mod;
+    return *this;
+  }
+  mint& operator-=(const mint a) {
+    if ((x += mod - a.x) >= mod) x -= mod;
+    return *this;
+  }
+  mint& operator*=(const mint a) {
+    (x *= a.x) %= mod;
+    return *this;
+  }
+  mint operator+(const mint a) const { return mint(*this) += a; }
+  mint operator-(const mint a) const { return mint(*this) -= a; }
+  mint operator*(const mint a) const { return mint(*this) *= a; }
+  mint pow(ll t) const {
+    if (!t) return 1;
+    mint a = pow(t >> 1);
+    a *= a;
+    if (t & 1) a *= *this;
+    return a;
   }
 
-  S mpg(F f, S x){
-    S ret;
-    if (f == id) {
-      ret = x;
-    } else {
-      auto [a, b] = x;
-      ret = {b - a, b};
-    }
-    return ret;
+  // for prime mod
+  mint inv() const { return pow(mod - 2); }
+  mint& operator/=(const mint a) { return *this *= a.inv(); }
+  mint operator/(const mint a) const { return mint(*this) /= a; }
+};
+istream& operator>>(istream& is, mint& a) { return is >> a.x; }
+ostream& operator<<(ostream& os, const mint& a) { return os << a.x; }
+
+class modutils {
+  vector<mint> fact, invfact;
+
+ public:
+  modutils(int n = 200005) : fact(n + 1), invfact(n + 1) {
+    fact[0] = 1;
+    for (int i = 1; i <= n; i++) fact[i] = fact[i - 1] * i;
+    invfact[n] = fact[n].inv();
+    for (int i = n; i >= 1; i--) invfact[i - 1] = invfact[i] * i;
   }
-
-  F cmp(F f2, F f1){
-    return (f2 + f1)%2;
+  mint pow(mint x, ll n) { return x.pow(n); }
+  mint comb(ll n, ll k) {
+    if (n < 0 || k < 0 || n < k) return 0;
+    return fact[n] * invfact[k] * invfact[n - k];
   }
-
-  LzyST(int _n){
-    n = 2, d = 0;
-    while(n < 2*_n){
-      n <<= 1;
-      d++;
-    }
-    ofst = n >> 1;
-    as.assign(n, E);
-    lzy.assign(n, id);
+  mint perm(ll n, ll k) {
+    if (n < 0 || k < 0 || n < k) return 0;
+    return fact[n] * invfact[n - k];
   }
-
-  void set(int p, S x){
-    int k = p + ofst;
-    rrepLRE(i, d, 0) apply_at(k >> i);
-    as[k] = x;
-    repLRE(i, 0, d) update(k >> i);
-  }
-
-  void apply(int l, int r, F f){
-    l += ofst, r += ofst;
-    rrepLRE(i, d, 0) if(l != ((l >> i) << i)) apply_at(l >> i);
-    rrepLRE(i, d, 0) if(r != ((r >> i) << i)) apply_at((r - 1) >> i);
-
-    int l2 = l, r2 = r;
-    while(l < r){
-      if(l & 1){
-        lzy[l] = cmp(f, lzy[l]);
-        l++;
-      }
-      l >>= 1;
-      if(r & 1){
-        lzy[r-1] = cmp(f, lzy[r-1]);
-        r--;
-      }
-      r >>= 1;
-    }
-
-    l = l2, r = r2;
-    repLRE(i, 0, d) if(l != ((l >> i) << i)) update(l >> i);
-    repLRE(i, 0, d) if(r != ((r >> i) << i)) update((r - 1) >> i);
-  }
-
-  S prod(int l, int r){
-    l += ofst, r += ofst;
-    rrepLRE(i, d, 0) if(l != ((l >> i) << i)) apply_at(l >> i);
-    rrepLRE(i, d, 0) if(r != ((r >> i) << i)) apply_at((r - 1) >> i);
-
-    S sml = E, smr = E;
-    while(l < r){
-      if(l & 1){
-        apply_at(l);
-        sml = op(sml, as[l]);
-        l++;
-      }
-      l >>= 1;
-      if(r & 1){
-        apply_at(r-1);
-        smr = op(as[r-1], smr);
-        r--;
-      }
-      r >>= 1;
-    }
-
-    return op(sml, smr);
-  }
-
-private:
-  void apply_at(int k){
-    as[k] = mpg(lzy[k], as[k]);
-    if(k < ofst){
-      lzy[2*k] = cmp(lzy[k], lzy[2*k]);
-      lzy[2*k + 1] = cmp(lzy[k], lzy[2*k + 1]);
-    }
-    lzy[k] = id;
-  }
-
-  void update(int k){
-    apply_at(k);
-    if(k < ofst){
-      apply_at(2*k);
-      apply_at(2*k + 1);
-      as[k] = op(as[2*k], as[2*k + 1]);
-    }
-  }
-  
+  mint fac(ll n) { return fact[n]; }
+  mint invfac(ll n) {return invfact[n]; }
 };
 
 int main() {
   // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll n, q;
-  cin >> n >> q;
+  ll n, a, b, c, d;
+  cin >> n >> a >> b >> c >> d;
 
-  LzyST lseg(n);
+  modutils mu(1005);
 
-  rep(i, n) lseg.set(i, {0, 1});
+  using vm = vector<mint>;
+  using vvm = vector<vm>;
 
-  rep(_, q){
-    ll t, l, r;
-    cin >> t >> l >> r;
-    if(t == 1){
-      lseg.apply(l, r, 1);
-    } else {
-      assert(t == 2);
-      auto [a, b] = lseg.prod(l, r);
-      cout << a << endl;
+  vvm dp(n+1, vm(n+1, 0));
+  dp[0][0] = 1;
+  rep(i, n){
+    rep(j, n+1){
+      rep(k, n+1){
+        ll nj = j + (i + 1)*k;
+        if(nj > n) break;
+        if(!(k == 0 || (c <= k && k <= d))) continue;
+        mint coef = mu.fac((i+1)*k)*mu.invfac(i+1).pow(k)*mu.comb(n-j, k*(i+1))*mu.invfac(k);
+        if(i+1 >= a || nj == 0) dp[i+1][nj] += dp[i][j]*coef;
+      }
     }
   }
 
+  mint ans = dp[b][n];
+  cout << ans << endl;
+   
   return 0;
 }

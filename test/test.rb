@@ -1,39 +1,53 @@
-x, y, r = gets.split.map(&:to_f)
-#xs, ys, rs = gets.split
+#x, y, r = gets.split.map(&:to_f)
+xs = gets.chomp
+m = gets.to_i
 
-D = 10000
+if xs.size == 1
+    x = xs.to_i
+    ans = x <= m ? 1 : 0
+    puts ans
+    exit
+end
 
-def isqrt(x)
-    ac, wa = 0, 10**10*2
-    while ac + 1 < wa
-        wj = (ac + wa)/2;
-        if wj*wj <= x
-            ac = wj
-        else
-            wa = wj
-        end
+d = 0
+xs.size.times do |i|
+    xi = xs[i..i]
+    d = [xi.to_i, d].max
+end
+
+wj = d + 1
+xval = 0
+xs.size.times do |i|
+    xval *= wj
+    xval += xs[i].to_i
+end
+if xval > m
+    wa = wj
+    puts 0
+    exit
+end
+
+ac, wa = d + 1, 10**18+1
+while ac + 1 < wa
+    wj = (ac + wa)/2
+    minv = wj
+    if minv > m
+        wa = wj
+        next
     end
-    return ac
+
+    xval = 0
+    xs.size.times do |i|
+        xval *= wj
+        xval += xs[i].to_i
+    end
+    if xval > m
+        wa = wj
+        next
+    end
+
+    ac = wj
 end
 
-x = (x*D).round
-y = (y*D).round
-r = (r*D).round
-
-lo = y - r
-lo += (-lo)%D
-up = y + r
-up -= up%D
-
-ans = 0
-for i in lo/D..up/D
-   dy = y - i*D
-   dx = isqrt(r*r - dy*dy)
-   lp = x - dx
-   lp += (-lp)%D
-   rp = x + dx
-   rp -= rp%D
-   ans += rp/D - lp/D + 1
-end
-
+ans = ac - d
 puts ans

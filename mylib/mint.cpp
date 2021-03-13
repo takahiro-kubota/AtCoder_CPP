@@ -65,4 +65,5 @@ class modutils {
     return fact[n] * invfact[n - k];
   }
   mint fac(ll n) { return fact[n]; }
+  mint invfac(ll n) {return invfact[n]; }
 };
