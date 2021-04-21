@@ -9,6 +9,7 @@ typedef long long ll;
 typedef unsigned long long ull;
 
 static const long long mod = 1000000007;
+//static const long long mod = 998244353;
 
 struct mint {
   ll x;  // typedef long long ll;
@@ -67,3 +68,6 @@ class modutils {
   mint fac(ll n) { return fact[n]; }
   mint invfac(ll n) {return invfact[n]; }
 };
+
+using vm = vector<mint>;
+using vvm = vector<vm>;

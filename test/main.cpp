@@ -41,11 +41,13 @@ using ull = unsigned long long;
 using P = pair<ll, ll>;
 using T = tuple<ll, ll, ll>;
 using vll = vector<ll>;
-using vP = vector<P>;
-using vT = vector<T>;
 using vvll = vector<vll>;
 using vvvll = vector<vvll>;
+using vP = vector<P>;
 using vvP = vector<vector<P>>;
+using vT = vector<T>;
+using vvT = vector<vT>;
+
 using dqll = deque<ll>;
 
 ll dx[9] = {-1, 1, 0, 0, -1, -1, 1, 1, 0};
@@ -70,7 +72,10 @@ inline bool chmin(T& a, T b) {
 
 /* Macros reg. ends here */
 
+ll const INF = (1LL << 50);
+
 static const long long mod = 1000000007;
+// static const long long mod = 998244353;
 
 struct mint {
   ll x;  // typedef long long ll;
@@ -127,37 +132,49 @@ class modutils {
     return fact[n] * invfact[n - k];
   }
   mint fac(ll n) { return fact[n]; }
-  mint invfac(ll n) {return invfact[n]; }
+  mint invfac(ll n) { return invfact[n]; }
 };
+
+using vm = vector<mint>;
+using vvm = vector<vm>;
 
 int main() {
   // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll n, a, b, c, d;
-  cin >> n >> a >> b >> c >> d;
+  ll n, m;
+  cin >> n >> m;
 
-  modutils mu(1005);
-
-  using vm = vector<mint>;
-  using vvm = vector<vm>;
-
-  vvm dp(n+1, vm(n+1, 0));
-  dp[0][0] = 1;
-  rep(i, n){
-    rep(j, n+1){
-      rep(k, n+1){
-        ll nj = j + (i + 1)*k;
-        if(nj > n) break;
-        if(!(k == 0 || (c <= k && k <= d))) continue;
-        mint coef = mu.fac((i+1)*k)*mu.invfac(i+1).pow(k)*mu.comb(n-j, k*(i+1))*mu.invfac(k);
-        if(i+1 >= a || nj == 0) dp[i+1][nj] += dp[i][j]*coef;
-      }
-    }
+  vvP to(n);
+  rep(i, m) {
+    ll a, b, c;
+    cin >> a >> b >> c;
+    a--, b--;
+    to[a].emplace_back(b, c);
+    to[b].emplace_back(a, c);
   }
 
-  mint ans = dp[b][n];
-  cout << ans << endl;
-   
+  auto dks = [&](ll st, vll& dist) {
+    priority_queue<P, vP, greater<P>> q;
+    q.emplace(0, st);
+    dist[st] = 0;
+    while (q.size()) {
+      auto [du, u] = q.top();
+      q.pop();
+      if (dist.at(u) < du) continue;
+      for (auto [v, co] : to[u]) {
+        ll dv = du + co;
+        if (chmin(dist[v], dv)) {
+          q.emplace(dv, v);
+        }
+      }
+    }
+  };
+
+  vll da(n, INF), dz(n, INF);
+  dks(0, da), dks(n-1, dz);
+
+  rep(i, n) cout << da[i] + dz[i] << endl;
+
   return 0;
 }

@@ -1,19 +1,32 @@
 priority_queue<P, vP, greater<P>> pque;
 vll dist(n, INF);
 dist[0] = 0;
-pque.push({0, 0});
+pque.emplace(0, 0);
 while (!pque.empty()) {
-  P p = pque.top();
+  auto [du, u] = pque.top();
   pque.pop();
-  ll du, u;
-  tie(du, u) = p;
   if (dist[u] < du) continue;
-  for (auto e : to[u]) {
-    ll c, v;
-    tie(c, v) = e;
+  for (auto [c, v] : to[u]) {
     if (dist[v] > du + c) {
       dist[v] = du + c;
-      pque.push({du + c, v});
+      pque.emplace(du + c, v);
     }
   }
 }
+
+auto dks = [&](ll st, vll& dist) {
+  priority_queue<P, vP, greater<P>> q;
+  q.emplace(0, st);
+  dist[st] = 0;
+  while (q.size()) {
+    auto [du, u] = q.top();
+    q.pop();
+    if (dist.at(u) < du) continue;
+    for (auto [v, co] : to[u]) {
+      ll dv = du + co;
+      if (chmin(dist[v], dv)) {
+        q.emplace(dv, v);
+      }
+    }
+  }
+};

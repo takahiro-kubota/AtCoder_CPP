@@ -44,3 +44,11 @@ ll ipow(ll x, ll t) {
   if (t & 1) a *= x;
   return a;
 }
+
+vll ds;
+for (ll i = 1; i*i <= n; i++){
+  if(n % i == 0){
+    ds.push_back(i);
+    if(n/i != i) ds.push_back(n/i);
+  }
+}
