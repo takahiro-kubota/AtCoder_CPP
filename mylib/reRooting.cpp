@@ -47,9 +47,6 @@ using vP = vector<P>;
 using vvP = vector<vector<P>>;
 using vT = vector<T>;
 using vvT = vector<vT>;
-using vD = vector<double>;
-using vvD = vector<vD>;
-using vvvD = vector<vvD>;
 
 using dqll = deque<ll>;
 
@@ -141,35 +138,117 @@ class modutils {
 using vm = vector<mint>;
 using vvm = vector<vm>;
 
+vvll to;
+vll nst;
+vm dp;
+
+modutils mu(200100);
+
+ll n;
+
+void dfs(ll u, ll p) {
+  dp[u] = 1, nst[u] = 0;
+  for (auto v : to[u]) {
+    if (v == p) continue;
+    dfs(v, u);
+    dp[u] *= dp[v]*mu.comb(nst[u]+nst[v], nst[v]);
+    nst[u] += nst[v];
+  }
+  nst[u]++;
+}
+
+void efs(ll u, ll p) {
+  if (p != -1) {
+    mint x = dp[p] / (mu.comb(n - 1, nst[u])*dp[u]);
+    dp[u] =  x * dp[u] * mu.comb(n - 1, n - nst[u]);
+  }
+  for (auto v : to[u]) {
+    if (v == p) continue;
+    efs(v, u);
+  }
+}
+
+int main() {
+  // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+  cout << fixed << setprecision(15);
+
+  cin >> n;
+  to.resize(n);
+  rep(_, n - 1) {
+    ll x, y;
+    cin >> x >> y;
+    x--, y--;
+    to[x].push_back(y);
+    to[y].push_back(x);
+  }
+
+  dp.resize(n);
+  nst.resize(n);
+  dfs(0, -1);
+  //rep(i, n) {dfs(i, -1); cout << dp[i] << endl;}
+  efs(0, -1);
+  for (auto ans : dp) cout << ans << endl;
+
+  return 0;
+}
+
+
+///// left - right ver
+void dfs(ll u, ll p) {
+  dp[u] = 1;
+  for (auto v : to[u]) {
+    if (v == p) continue;
+    dfs(v, u);
+    dp[u] *= dp[v]+1;
+  }
+}
+
+void efs(ll u, mint x, ll p) {
+  if (p != -1) {
+    dp[u] *=  x + 1;
+  }
+
+  ll nc = to[u].size();
+  vm cml(nc+1, 1), cmr(nc+1, 1);
+  rep(i, nc) {
+    ll vi = to[u][i];
+    ll j = nc - 1 - i;
+    ll vj = to[u][j];
+    mint di = (vi == p) ? x : dp[vi];
+    cml[i+1] = (di+1)*cml[i];
+    mint dj = (vj == p) ? x : dp[vj];
+    cmr[j] = (dj+1)*cmr[j+1];
+  }
+
+  rep(i, nc){
+    ll vi = to[u][i];
+    if (vi == p) continue;
+    mint ux = cml[i]*cmr[i+1];
+    efs(vi, ux, u);
+  }
+}
+
 int main() {
   // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
   ll n;
-  cin >> n;
-
-  vvll g(n, vll(n, 0));
-  rep(i, n) rep(j, n) cin >> g[i][j];
-
-  vll dp(1 << n);
-  rep(s, 1 << n){
-    ll tmp = 0;
-    rep(i, n) rep(j, i){
-      if((s >> i) & (s >> j) & 1){
-        tmp += g[i][j];
-      }
-    }
-    dp[s] = tmp;
+  cin >> n >> mod;
+  to.resize(n);
+  rep(_, n - 1) {
+    ll x, y;
+    cin >> x >> y;
+    x--, y--;
+    to[x].push_back(y);
+    to[y].push_back(x);
   }
 
-  rep(s, 1 << n){
-    for (ll t = s; t > 0; t = (t - 1) & s){
-      ll u = s & (~t);
-      chmax(dp[s], dp[u] + dp[t]);
-    }
-  }
-
-  cout << dp.back() << endl;
+  dp.resize(n);
+  dfs(0, -1);
+  //rep(i, n) {dfs(i, -1); cout << dp[i] << endl;}
+  
+  efs(0, -1, -1);
+  for(mint ans : dp) cout << ans << endl;
 
   return 0;
 }

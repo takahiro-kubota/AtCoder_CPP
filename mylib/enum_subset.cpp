@@ -145,27 +145,34 @@ int main() {
   // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll n;
-  cin >> n;
+  ll n, m;
+  cin >> n >> m;
 
   vvll g(n, vll(n, 0));
-  rep(i, n) rep(j, n) cin >> g[i][j];
+  rep(i, m){
+    ll a, b;
+    cin >> a >> b;
+    a--, b--;
+    g[a][b] = g[b][a] = 1;
+  }
 
-  vll dp(1 << n);
+  vll dp(1 << n, INF);
   rep(s, 1 << n){
-    ll tmp = 0;
+    bool ok = true;
     rep(i, n) rep(j, i){
       if((s >> i) & (s >> j) & 1){
-        tmp += g[i][j];
+        ok &= g[i][j];
+        if(!ok) break;
       }
+      if(!ok) break;
     }
-    dp[s] = tmp;
+    if(ok) dp[s] = 1;
   }
 
   rep(s, 1 << n){
     for (ll t = s; t > 0; t = (t - 1) & s){
       ll u = s & (~t);
-      chmax(dp[s], dp[u] + dp[t]);
+      chmin(dp[s], dp[u] + dp[t]);
     }
   }
 
