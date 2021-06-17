@@ -188,8 +188,8 @@ int main() {
         ok &= !(u & 1);        // hidari ni king ga attara dame. (b==0 no tokiha atode mask sareru node kankei nai.)
         ok &= !((u >> w) & 1); // hidari ue ni (ry
       }
-      ok &= !((u >> (w - 1)) & 1); // migi ue
-      if (nj != w - 1) ok &= !((u >> (w - 2)) & 1); // ue
+      ok &= !((u >> (w - 1)) & 1); // ue
+      if (nj != w - 1) ok &= !((u >> (w - 2)) & 1); // migi ue
       ok |= b == 0;
       if (!ok) continue;
       ll v = (((u << 1) & ((1 << (w + 1)) - 1))) + b; // next state
