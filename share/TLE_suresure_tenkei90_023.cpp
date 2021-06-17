@@ -176,7 +176,7 @@ int main() {
   //    - the set of ids are managed FOR EACH j (otherwise, the max. id > 2^18 orz)
   // nks[j][f[j][u]] : 
   //  - the vector (list) of ids that can be reached from the state (j, u)
-  //  - if v in nks[j][f[j][u]], the state transition (j, u) -> (nj, v) is possible (where nj = (j + 1)%w)
+  //  - if x is in nks[j][f[j][u]], the state transition (j, u) -> (nj, v) is possible where nj = (j + 1)%w, and v = inv(f[nj][x])
   vvvll nks(w, vvll(MX, vll()));
   while (q.size()) {
     auto [j, u] = q.front();
