@@ -185,11 +185,11 @@ int main() {
       bool ok = true;
       ll nj = (j + 1) % w;
       if (nj != 0) {
-        ok &= !(u & 1);        // ushiro ni king ga attara dame. (b==0 no tokiha atode mask sareru node kankei nai.)
-        ok &= !((u >> w) & 1); // ue ni (ry
+        ok &= !(u & 1);        // hidari ni king ga attara dame. (b==0 no tokiha atode mask sareru node kankei nai.)
+        ok &= !((u >> w) & 1); // hidari ue ni (ry
       }
       ok &= !((u >> (w - 1)) & 1); // migi ue
-      if (nj != w - 1) ok &= !((u >> (w - 2)) & 1); // hidari ue
+      if (nj != w - 1) ok &= !((u >> (w - 2)) & 1); // ue
       ok |= b == 0;
       if (!ok) continue;
       ll v = (((u << 1) & ((1 << (w + 1)) - 1))) + b; // next state

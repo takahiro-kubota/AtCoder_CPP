@@ -35,6 +35,8 @@ using namespace atcoder;
   distance(v.begin(), lower_bound(v.begin(), v.end(), y))
 #define Upper_bound(v, y) \
   distance(v.begin(), upper_bound(v.begin(), v.end(), y))
+#define __bpc __builtin_popcount
+#define __bpcll __builtin_popcountll
 
 using ll = long long;
 using ull = unsigned long long;
@@ -134,42 +136,58 @@ class modutils {
     if (n < 0 || k < 0 || n < k) return 0;
     return fact[n] * invfact[n - k];
   }
+  mint hom(ll n, ll k) { return comb(n + k - 1, k); }
+
   mint fac(ll n) { return fact[n]; }
   mint invfac(ll n) { return invfact[n]; }
 };
 
 using vm = vector<mint>;
 using vvm = vector<vm>;
+using vvvm = vector<vvm>;
 
 int main() {
   // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll n;
-  cin >> n;
+  ll h, w;
+  cin >> h >> w;
 
-  vvll g(n, vll(n, 0));
-  rep(i, n) rep(j, n) cin >> g[i][j];
+  vector<string> mp(h);
+  rep(i, h) cin >> mp[i];
 
-  vll dp(1 << n);
-  rep(s, 1 << n){
-    ll tmp = 0;
-    rep(i, n) rep(j, i){
-      if((s >> i) & (s >> j) & 1){
-        tmp += g[i][j];
+  vector<vector<map<ll, mint>>> dp(h, vector<map<ll, mint>>(w));
+  dp[0][0][0] = 1;
+  if(mp[0][0] == '.') dp[0][0][1] = 1;
+  rep(i, h) rep(j, w) {
+    if (i == h - 1 && j == w - 1) break;
+    ll ni = i + ((j + 1) / w);
+    ll nj = (j + 1) % w;
+    for (auto [u, cnt] : dp[i][j]) {
+      //printf("%lld, %lld, %lld: %lld\n", i, j, u, dp[i][j][u].x);
+      rep(b, 2) {
+        bool ok = true;
+        if(nj != 0) {
+          ok &= !(u & 1);
+          ok &= !((u >> w) & 1);
+        }
+        ok &= !((u >> (w-1)) & 1);
+        if(nj != w-1) ok &= !((u >> (w-2)) & 1);
+        ok &= mp[ni][nj] == '.';
+        ok |= b == 0;
+        if (!ok) continue;
+        ll v = ((u << 1) & ((1 << (w+1)) - 1)) + b;
+        dp[ni][nj][v] += dp[i][j][u];
       }
     }
-    dp[s] = tmp;
   }
 
-  rep(s, 1 << n){
-    for (ll t = s; t > 0; t = (t - 1) & s){
-      ll u = s & (~t);
-      chmax(dp[s], dp[u] + dp[t]);
-    }
+  mint ans = 0;
+  for(auto [u, cnt] :  dp[h-1][w-1]){
+    ans += cnt;
   }
 
-  cout << dp.back() << endl;
+  cout << ans << endl;
 
   return 0;
 }

@@ -1,27 +1,15 @@
-n = gets.to_i
-s = gets.chomp
-q = gets.to_i
+a, b = gets.split(" ").map(&:to_i)
 
-flp = false
-q.times do
-  t, a, b = gets.split(" ").map(&:to_i)
-  a -= 1
-  b -= 1
-  if t == 1
-    if flp
-      a = (a + n) % (2*n)
-      b = (b + n) % (2*n)
-    end
-    s[a], s[b] = s[b], s[a]
-  else
-    flp = !flp
-  end
+def gcd(a, b)
+  a, b = b, a if a > b
+  return b if a == 0
+  return gcd(a, b%a)
 end
 
-if flp
-  puts s[n..-1] + s[0..n-1]
-else
-  puts s
+g = gcd(a, b)
+l = a*b/g
+if l > 10**18
+  l = "Large"
 end
 
-#a = gets.split(" ").map(&:to_i).max
+puts l
