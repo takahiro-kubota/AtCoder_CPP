@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <list>
 #include <algorithm>
 #include <cassert>
 #include <cfloat>
@@ -37,6 +37,13 @@ using namespace atcoder;
   distance(v.begin(), upper_bound(v.begin(), v.end(), y))
 #define __bpc __builtin_popcount
 #define __bpcll __builtin_popcountll
+
+#ifdef LOCAL
+#  include <debug_print.hpp>
+#  define debug(...) debug_print::multi_print(#__VA_ARGS__, __VA_ARGS__)
+#else
+#  define debug(...) (static_cast<void>(0))
+#endif
 
 using ll = long long;
 using ull = unsigned long long;
@@ -77,10 +84,12 @@ inline bool chmin(T& a, T b) {
 
 /* Macros reg. ends here */
 
-ll const INF = (1LL << 50);
+constexpr ll INF = (1LL << 50);
+constexpr double eps = 1E-10;
 
-static const long long mod = 1000000007;
-// static const long long mod = 998244353;
+constexpr ll mod = 1000000007;
+//constexpr ll mod = 998244353;
+//ll mod;
 
 struct mint {
   ll x;  // typedef long long ll;
@@ -146,48 +155,45 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
+ll mn(ll x, ll y) {return min(x, y);}
+ll e() {return INF;}
+
 int main() {
-  // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
   cout << fixed << setprecision(15);
 
-  ll h, w;
-  cin >> h >> w;
+  ll n, m;
+  cin >> n >> m;
 
-  vector<string> mp(h);
-  rep(i, h) cin >> mp[i];
+  vll as(n);
+  rep(i, n) cin >> as[i];
+  segtree<ll, mn, e> st(n);
+  rep(i, n) {
+    ll c; cin >> c;
+    st.set(i, c);
+  }
+  vll mst(n, 0);
+  rep(i, m) {
+    ll x; cin >> x;
+    x--;
+    mst[x] = 1;
+  }
 
-  vector<vector<map<ll, mint>>> dp(h, vector<map<ll, mint>>(w));
-  dp[0][0][0] = 1;
-  if(mp[0][0] == '.') dp[0][0][1] = 1;
-  rep(i, h) rep(j, w) {
-    if (i == h - 1 && j == w - 1) break;
-    ll ni = i + ((j + 1) / w);
-    ll nj = (j + 1) % w;
-    for (auto [u, cnt] : dp[i][j]) {
-      //printf("%lld, %lld, %lld: %lld\n", i, j, u, dp[i][j][u].x);
-      rep(b, 2) {
-        bool ok = true;
-        if(nj != 0) {
-          ok &= !(u & 1);
-          ok &= !((u >> w) & 1);
-        }
-        ok &= !((u >> (w-1)) & 1);
-        if(nj != w-1) ok &= !((u >> (w-2)) & 1);
-        ok &= mp[ni][nj] == '.';
-        ok |= b == 0;
-        if (!ok) continue;
-        ll v = ((u << 1) & ((1 << (w+1)) - 1)) + b;
-        dp[ni][nj][v] += dp[i][j][u];
-      }
+  vvll dp(n+1, vll(n+1, INF));
+  dp[0][0] = 0;
+
+  rep(i, n){
+    rep(j, n){
+      if(dp[i][j] == INF) continue;
+      if(!mst[i]) chmin(dp[i+1][j], dp[i][j]);
+      ll mnv = st.prod(i-j, i+1);
+      ll add = as[i] + mnv;
+      chmin(dp[i+1][j+1], dp[i][j] + add);
     }
   }
 
-  mint ans = 0;
-  for(auto [u, cnt] :  dp[h-1][w-1]){
-    ans += cnt;
-  }
-
+  ll ans = INF;
+  rep(j, n+1) chmin(ans, dp[n][j]);
   cout << ans << endl;
-
+  
   return 0;
 }

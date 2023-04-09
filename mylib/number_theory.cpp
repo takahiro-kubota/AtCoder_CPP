@@ -52,3 +52,17 @@ for (ll i = 1; i*i <= n; i++){
     if(n/i != i) ds.push_back(n/i);
   }
 }
+
+ll mysqrt(ll n){
+  __uint128_t nn = n;
+  __uint128_t l = 0, r = 1E19;
+  while(l + 1 < r){
+    __uint128_t mid = (l + r)/2;
+    if(mid*mid <= nn){
+      l = mid;
+    } else {
+      r = mid;
+    }
+  }
+  return l;
+}
