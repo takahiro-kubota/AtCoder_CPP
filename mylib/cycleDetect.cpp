@@ -28,9 +28,7 @@ int main(){
       if(!od[v]) ans.push_back(v), q.emplace(v);
     }
   }
-  Reverse(ans);
-
-  for(ll x : ans) cout << x << " ";
+  cout << (sz(ans)!=n ? "Yes" : "No") << endl;
 
 	return 0;
 }
@@ -50,24 +48,24 @@ int main(){
   }
   rep(i, n) Sort(to[i]);
 
-  vll seen(n, 0);
   vll ans;
-  auto f = [&](auto f, ll u) -> void{
+  vll seen(n, 0), fin(n, 0);
+  auto f = [&](auto f, ll u) -> void {
+    seen[u] = 1;
+    fin[u] = 1;
     for(ll v : to[u]){
+      if(fin[v]){
+        cout << "Yes" << endl;
+        exit(0);
+      }
       if(seen[v]) continue;
-      seen[v] = 1;
       f(f, v);
     }
-    ans.push_back(u);
+    fin[u] = 0;
   };
 
-  rep(i, n) if(!seen[i]) {
-    seen[i] = 1;
-    f(f,i);
-  }
-
-  Reverse(ans);
-  for(ll x : ans) cout << x << ' ';
+  rep(i, n) if(!seen[i]) f(f, i);
+  cout << "No" << endl;
 
 	return 0;
 }

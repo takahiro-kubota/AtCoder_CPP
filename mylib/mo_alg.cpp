@@ -1,5 +1,3 @@
-// ABC318G AC code
-
 #include <limits.h>
 #include <math.h>
 #include <stdio.h>
@@ -28,8 +26,8 @@ using namespace std;
 using namespace atcoder;
 
 #define rep(i, n) for (ll i = 0; i < (n); ++i)
-#define repE(i, l, r) for (ll i = (l); i <= (r); ++i)
-#define rrepE(i, l, r) for (ll i = (l); i >= (r); --i)
+#define repLRE(i, l, r) for (ll i = (l); i <= (r); ++i)
+#define rrepLRE(i, l, r) for (ll i = (l); i >= (r); --i)
 #define Sort(v) sort(v.begin(), v.end())
 #define rSort(v) sort(v.rbegin(), v.rend())
 #define Uniq(v) Sort(v), v.erase(unique(v.begin(), v.end()), v.end())
@@ -98,8 +96,8 @@ constexpr ll INF = (1LL << 50);
 constexpr double eps = 1E-10;
 
 //constexpr ll mod = 1000000007;
-constexpr ll mod = 998244353;
-//ll mod;
+//constexpr ll mod = 998244353;
+ll mod;
 
 struct mint
 {
@@ -182,74 +180,68 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
-
-ll nf;
-struct edge {
-  ll to, cap, rev;
-};
-
-vector<vector<edge>> to;
-vector<bool> used;
-void addE(ll u, ll v, ll w) {
-  to[u].push_back({v, w, (ll)to[v].size()});
-  to[v].push_back({u, 0, (ll)to[u].size() - 1});
-}
-
-ll dfs(ll u, ll t, ll f) {
-  assert(f > 0);
-  if (u == t) return f;
-  used[u] = true;
-  for (edge& e : to[u]) {
-    if (used[e.to] || e.cap <= 0) continue;
-    ll d = dfs(e.to, t, min(f, e.cap));
-    if (d == 0) continue;
-    e.cap -= d;
-    to[e.to][e.rev].cap += d;
-    return d;
-  }
-  return 0;
-}
-
-ll flow(ll s, ll t){
-  ll ret = 0;
-  while (true) {
-    used.assign(nf, false);
-    ll add = dfs(s, t, INF);
-    if (add == 0) {
-      return ret;
-    } else
-      ret += add;
-  }
-}
-
 int main(){
   cout << fixed << setprecision(15);
 
-  ll n, m, a, b, c;
-  cin >> n >> m >> a >> b >> c;
-  a--, b--, c--;
+  ll n, q;
+  cin >> n;
+  vll as(n);
+  rep(i, n) cin >> as[i], as[i]--;
+  cin >> q;
 
-  nf = 2*n+1;
-  to.assign(nf, vector<edge>());
-
-  ll t = 2*n;
-
-  addE(a+n, t, 1);
-  addE(c+n, t, 1);
-  rep(i, n) addE(i, i+n, 1);
-  
-  rep(i, m){
-    ll u, v;
-    cin >> u >> v;
-    u--, v--;
-    addE(u+n, v, 1);
-    addE(v+n, u, 1);
+  vT ts(q);
+  rep(i, q){
+    ll l, r;
+    cin >> l >> r;
+    l--;
+    ts[i] = {l, r, i};
   }
 
-  ll fl = flow(b + n, t);
-  debug(fl);
-  if(fl == 2) cout << "Yes" << endl;
-  else cout << "No" << endl;
+  ll const B = round(sqrt(q));
+  //ll const B = n / min(n, (ll)round(sqrt(q)));
 
-	return 0;
+  auto cmp = [&](T a, T b){
+    auto [la, ra, ia] = a;
+    auto [lb, rb, ib] = b;
+    bool cd = ra/B < rb/B || (ra/B==rb/B && la < lb);
+    return cd;
+  };
+  sort(ts.begin(), ts.end(), cmp);
+
+  // rep(j, q){
+  //   auto [l, r, i] = ts[j];
+  //   printf("%lld %lld %lld\n", l, r, i);
+  // }
+
+  vll cnt(n, 0);
+  ll now = 0;
+
+  auto ad = [&](ll x){
+    now -= cnt[x]/2;
+    cnt[x]++;
+    now += cnt[x]/2;
+  };
+
+  auto dl = [&](ll x){
+    now -= cnt[x]/2;
+    cnt[x]--;
+    now += cnt[x]/2;
+  };
+
+  vll ans(q);
+  ll cl = 0, cr = 0;
+  rep(j, q){
+    auto [l, r, i] = ts[j];
+    while(cr < r) ad(as[cr++]);
+    while(cl < l) dl(as[cl++]);
+    while(l < cl) ad(as[--cl]);
+    while(r < cr) dl(as[--cr]);
+    ans[i] = now;
+    //debug(i, cnt);
+  }
+
+  //rep(i, q) cout << ans[i] << endl;
+  rep(i, q) printf("%lld\n", ans[i]);
+
+  return 0;
 }

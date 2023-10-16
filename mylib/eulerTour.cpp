@@ -1,5 +1,3 @@
-// ABC318G AC code
-
 #include <limits.h>
 #include <math.h>
 #include <stdio.h>
@@ -49,6 +47,7 @@ using namespace atcoder;
 #endif
 
 using ll = long long;
+using l3 = __int128_t;
 using ull = unsigned long long;
 using ld = long double;
 using P = pair<ll, ll>;
@@ -89,17 +88,18 @@ inline bool chmin(T &a, T b)
   return 0;
 }
 
-ll xadd(ll a, ll b) { return a+b; }
-ll xmax(ll a, ll b) { return max(a, b); }
-ll xmin(ll a, ll b) { return min(a, b); }
-ll xzero() { return 0LL; }
-
 constexpr ll INF = (1LL << 50);
 constexpr double eps = 1E-10;
 
 //constexpr ll mod = 1000000007;
 constexpr ll mod = 998244353;
 //ll mod;
+
+ll xadd(ll a, ll b) { return a+b; }
+ll xmax(ll a, ll b) { return max(a, b); }
+ll xmin(ll a, ll b) { return min(a, b); }
+ll xinf() { return INF; }
+ll xzero() { return 0LL; }
 
 struct mint
 {
@@ -182,74 +182,106 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
+struct eulerTour {
+  // parameters
+  ll n;
+  vvT to;
+  
+  // varialbles used internally
+  vll tin, tout, i2v, t2e, t2v;
+  segtree<ll, xadd, xzero> st_ewt;
+  segtree<ll, xmin, xinf> st_in_v;
+  ll tmx, t;
 
-ll nf;
-struct edge {
-  ll to, cap, rev;
+  // the constructor and related functions
+  eulerTour(ll _n, vvT _to){
+    n = _n;
+    to = _to;
+    tmx = 2*n, t = 0;
+    tin.resize(n+1), tout.resize(n+1);
+    i2v.resize(n+1), t2e.resize(tmx), t2v.resize(tmx);
+    st_ewt = segtree<ll, xadd, xzero>(tmx);
+    build(1, 0, 0, 1);
+    st_in_v = segtree<ll, xmin, xinf>(tmx);
+    rep(i, tmx) st_in_v.set(i, tin[t2v[i]]);
+  }
+
+  void build(ll u, ll p, ll w, ll i){
+    // p -> u
+    tin[u] = t;
+    i2v[i] = u;
+    t2e[t] = u, st_ewt.set(t, w);
+    t2v[t] = u;
+    t++;
+
+    // recursion
+    for(auto [v, w_uv, i_uv] : to[u]){
+      if(v == p) continue;
+      build(v, u, w_uv, i_uv);
+    }
+
+    // u -> p
+    tout[u] = t;
+    t2e[t] = -u, st_ewt.set(t, -w);
+    t2v[t] = p;
+    t++;
+  }
+
+  /*                      */
+  /* -- useful methods -- */
+  /*                      */
+
+  // returns lca of u and v
+  ll lca(ll u, ll v){
+    ll l = tin[u], r = tin[v];
+    if(l > r) swap(l, r);
+    return t2e[st_in_v.prod(l, r+1)];
+  };
+
+  // e: idx of an edge as input
+  void changeWeight(ll e, ll w){
+    ll v = i2v[e];
+    st_ewt.set(tin[v], w);
+    st_ewt.set(tout[v], -w);
+  }
+
+  // returns the weight of the path from u to v (= from v to u);
+  ll getPathWeight(ll u, ll v){
+    ll c = lca(u, v);
+    ll ans = st_ewt.prod(tin[c]+1, tin[u]+1);
+    ans += st_ewt.prod(tin[c]+1, tin[v]+1);
+    return ans;
+  }
 };
 
-vector<vector<edge>> to;
-vector<bool> used;
-void addE(ll u, ll v, ll w) {
-  to[u].push_back({v, w, (ll)to[v].size()});
-  to[v].push_back({u, 0, (ll)to[u].size() - 1});
-}
-
-ll dfs(ll u, ll t, ll f) {
-  assert(f > 0);
-  if (u == t) return f;
-  used[u] = true;
-  for (edge& e : to[u]) {
-    if (used[e.to] || e.cap <= 0) continue;
-    ll d = dfs(e.to, t, min(f, e.cap));
-    if (d == 0) continue;
-    e.cap -= d;
-    to[e.to][e.rev].cap += d;
-    return d;
-  }
-  return 0;
-}
-
-ll flow(ll s, ll t){
-  ll ret = 0;
-  while (true) {
-    used.assign(nf, false);
-    ll add = dfs(s, t, INF);
-    if (add == 0) {
-      return ret;
-    } else
-      ret += add;
-  }
-}
-
+// sample code ABC294G
 int main(){
   cout << fixed << setprecision(15);
 
-  ll n, m, a, b, c;
-  cin >> n >> m >> a >> b >> c;
-  a--, b--, c--;
+  ll n;
+  cin >> n;
 
-  nf = 2*n+1;
-  to.assign(nf, vector<edge>());
-
-  ll t = 2*n;
-
-  addE(a+n, t, 1);
-  addE(c+n, t, 1);
-  rep(i, n) addE(i, i+n, 1);
-  
-  rep(i, m){
-    ll u, v;
-    cin >> u >> v;
-    u--, v--;
-    addE(u+n, v, 1);
-    addE(v+n, u, 1);
+  vvT to(n+1);
+  repE(i, 1, n-1){
+    ll u, v, w;
+    cin >> u >> v >> w;
+    to[u].emplace_back(v, w, i);
+    to[v].emplace_back(u, w, i);
   }
 
-  ll fl = flow(b + n, t);
-  debug(fl);
-  if(fl == 2) cout << "Yes" << endl;
-  else cout << "No" << endl;
+  eulerTour et(n, to);
 
-	return 0;
+  ll q; 
+  cin >> q;
+  rep(_, q){
+    ll t, a, b; 
+    cin >> t >> a >> b;
+    if(t == 1){
+      et.changeWeight(a, b);
+    } else {
+      cout << et.getPathWeight(a, b) << endl;
+    }
+  }
+
+  return 0;
 }

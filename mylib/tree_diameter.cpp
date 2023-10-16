@@ -1,5 +1,3 @@
-// ABC318G AC code
-
 #include <limits.h>
 #include <math.h>
 #include <stdio.h>
@@ -97,8 +95,8 @@ ll xzero() { return 0LL; }
 constexpr ll INF = (1LL << 50);
 constexpr double eps = 1E-10;
 
-//constexpr ll mod = 1000000007;
-constexpr ll mod = 998244353;
+constexpr ll mod = 1000000007;
+//constexpr ll mod = 998244353;
 //ll mod;
 
 struct mint
@@ -182,74 +180,60 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
-
-ll nf;
-struct edge {
-  ll to, cap, rev;
-};
-
-vector<vector<edge>> to;
-vector<bool> used;
-void addE(ll u, ll v, ll w) {
-  to[u].push_back({v, w, (ll)to[v].size()});
-  to[v].push_back({u, 0, (ll)to[u].size() - 1});
-}
-
-ll dfs(ll u, ll t, ll f) {
-  assert(f > 0);
-  if (u == t) return f;
-  used[u] = true;
-  for (edge& e : to[u]) {
-    if (used[e.to] || e.cap <= 0) continue;
-    ll d = dfs(e.to, t, min(f, e.cap));
-    if (d == 0) continue;
-    e.cap -= d;
-    to[e.to][e.rev].cap += d;
-    return d;
-  }
-  return 0;
-}
-
-ll flow(ll s, ll t){
-  ll ret = 0;
-  while (true) {
-    used.assign(nf, false);
-    ll add = dfs(s, t, INF);
-    if (add == 0) {
-      return ret;
-    } else
-      ret += add;
-  }
-}
-
 int main(){
   cout << fixed << setprecision(15);
 
-  ll n, m, a, b, c;
-  cin >> n >> m >> a >> b >> c;
-  a--, b--, c--;
+  ll n;
+  cin >> n;
 
-  nf = 2*n+1;
-  to.assign(nf, vector<edge>());
-
-  ll t = 2*n;
-
-  addE(a+n, t, 1);
-  addE(c+n, t, 1);
-  rep(i, n) addE(i, i+n, 1);
-  
-  rep(i, m){
-    ll u, v;
-    cin >> u >> v;
-    u--, v--;
-    addE(u+n, v, 1);
-    addE(v+n, u, 1);
+  vvP to(n*2);
+  rep(i, n-1){
+    ll a, b, c;
+    cin >> a >> b >> c;
+    a--, b--;
+    to[a].emplace_back(b, c);
+    to[b].emplace_back(a, c);
+  }
+  rep(i, n){
+    ll d;
+    cin >> d;
+    to[i].emplace_back(n+i, d);
+    to[n+i].emplace_back(i, d);
   }
 
-  ll fl = flow(b + n, t);
-  debug(fl);
-  if(fl == 2) cout << "Yes" << endl;
-  else cout << "No" << endl;
+  
 
-	return 0;
+  auto f = [&](auto f, ll u, vll& d) -> ll { // returns max dist node id.
+    ll ret = u;
+    for(auto[v, c] : to[u]){
+      if(d[v] != -1) continue;
+      d[v] = d[u] + c;
+      ll w = f(f, v, d);
+      if(d[ret] < d[w]) ret = w;
+    }
+    return ret;
+  };
+
+  vll da(2*n, -1);
+  da[0] = 0;
+  ll a = f(f, 0, da);
+  
+  da.assign(2*n, -1);
+  da[a] = 0;
+  ll b = f(f, a, da);
+  
+  vll db(2*n, -1);
+  db[b] = 0;
+  f(f, b, db);
+
+  debug(a, b, da, db);
+
+  rep(i, n){
+    ll ans = 0;
+    if(i+n != a) chmax(ans, da[i]);
+    if(i+n != b) chmax(ans, db[i]);
+    cout << ans << endl;
+  }
+  
+  return 0;
 }
