@@ -45,6 +45,31 @@ ll ipow(ll x, ll t) {
   return a;
 }
 
+ll ipow(ll x, ll t) {
+  if (t == 0) return 1;
+  ll a = ipow(x, t >> 1);
+  if(a == INF) return INF;
+  a *= a;
+  if(a > INF) return INF;
+  if (t & 1) {
+    a *= x;
+    if(a > INF) return INF;
+  }
+  return a;
+}
+
+ll ipow(ll x, ll t, ll m) {
+  if (t == 0) return 1;
+  ll a = ipow(x, t >> 1, m);
+  a *= a;
+  a %= m;
+  if (t & 1) {
+    a *= x;
+    a %= m;
+  }
+  return a;
+}
+
 vll ds;
 for (ll i = 1; i*i <= n; i++){
   if(n % i == 0){
@@ -76,4 +101,30 @@ int extgcd(ll a, ll b, ll& x, ll& y){
     y -= (a/b)*x;
     return g;
   }
+}
+
+ll cdv(ll x, ll y){
+  assert(y != 0);
+  if(x == 0) return 0;
+  ll ret;
+  if((x/(abs(x)))*(y/(abs(y))) == -1){
+    ll u = abs(x), v = abs(y);
+    ret = u/v*(-1);
+  } else {
+    ret = (x+y-1)/y;
+  }
+  return ret;
+}
+
+ll fdv(ll x, ll y){
+  assert(y != 0);
+  if(x == 0) return 0;
+  ll ret;
+  if((x/(abs(x)))*(y/(abs(y))) == -1){
+    ll u = abs(x), v = abs(y);
+    ret = (u+v-1)/v*(-1);
+  } else {
+    ret = x/y;
+  }
+  return ret;
 }

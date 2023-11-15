@@ -132,8 +132,10 @@ struct lca {
   vector<vector<T>> co;
   vector<int> dep;
   vector<T> costs;
+  vector<int> postorder_id;
   vector<vector<int>> par;
-  lca(int n):n(n),to(n),co(n),dep(n),costs(n) {
+  int poi_cnt;
+  lca(int n):n(n),to(n),co(n),dep(n),costs(n),postorder_id(n) {
     l = 0;
     while ((1<<l) < n) ++l;
     par = vector<vector<int>>(n+1,vector<int>(l,n));
@@ -151,10 +153,12 @@ struct lca {
       if (u == p) continue;
       dfs(u, d+1, c+co[v][i], v);
     }
+    postorder_id[v] = poi_cnt++;
   }
  
   void init(int _root=0) {
     root = _root;
+    poi_cnt = 0;
     dfs(root);
     for (int i = 0; i < l-1; ++i) {
       for (int v = 0; v < n; ++v) {
@@ -182,11 +186,11 @@ struct lca {
     return par[a][0];
   }
   int length(int a, int b) {
-    int c = lca(a,b);
+    int c = (*this)(a,b);
     return dep[a]+dep[b]-dep[c]*2;
   }
   T dist(int a, int b) {
-    int c = lca(a,b);
+    int c = (*this)(a,b);
     return costs[a]+costs[b]-costs[c]*2;
   }
 };

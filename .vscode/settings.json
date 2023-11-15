@@ -71,6 +71,20 @@
         "typeindex": "cpp",
         "typeinfo": "cpp",
         "valarray": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "all": "cpp",
+        "span": "cpp",
+        "queue": "cpp",
+        "any": "cpp",
+        "bit": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "coroutine": "cpp",
+        "numbers": "cpp",
+        "ranges": "cpp",
+        "stop_token": "cpp",
+        "variant": "cpp",
+        "cfloat": "cpp",
+        "cassert": "cpp"
     }
 }
