@@ -4,7 +4,7 @@ bool my_next_comb(vll& ps, ll midx) {
   while (cur >= 0) {
     if (ps[cur] < midx - (k - 1 - cur)) {
       ps[cur]++;
-      repLRE(j, cur + 1, k - 1) { ps[j] = ps[j - 1] + 1; }
+      repE(j, cur + 1, k - 1) { ps[j] = ps[j - 1] + 1; }
       // rep(i, (ll)ps.size()) cout << ps[i] << " ";
       // cout << endl;
       return true;

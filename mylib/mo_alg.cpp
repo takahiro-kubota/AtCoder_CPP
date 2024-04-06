@@ -197,8 +197,8 @@ int main(){
     ts[i] = {l, r, i};
   }
 
-  ll const B = round(sqrt(q));
-  //ll const B = n / min(n, (ll)round(sqrt(q)));
+  //ll const B = round(sqrt(q));
+  ll const B = n / min(n, (ll)round(sqrt(q)));
 
   auto cmp = [&](T a, T b){
     auto [la, ra, ia] = a;
@@ -207,11 +207,6 @@ int main(){
     return cd;
   };
   sort(ts.begin(), ts.end(), cmp);
-
-  // rep(j, q){
-  //   auto [l, r, i] = ts[j];
-  //   printf("%lld %lld %lld\n", l, r, i);
-  // }
 
   vll cnt(n, 0);
   ll now = 0;

@@ -70,6 +70,16 @@ ll ipow(ll x, ll t, ll m) {
   return a;
 }
 
+l3 ipow(ll a, ll x, l3 m){
+  l3 ans = 1, ml = a;
+  while(x){
+    if(x%2) ans = (ans*ml)%m;
+    x >>= 1;
+    ml = (ml*ml)%m;    
+  }
+  return ans;
+}
+
 vll ds;
 for (ll i = 1; i*i <= n; i++){
   if(n % i == 0){
@@ -92,6 +102,8 @@ ll mysqrt(ll n){
   return l;
 }
 
+// 返り値: a と b の最大公約数
+// ax + by = gcd(a, b) を満たす (x, y) が格納される
 int extgcd(ll a, ll b, ll& x, ll& y){
   if(b == 0){
     x = 1, y = 0;
@@ -127,4 +139,15 @@ ll fdv(ll x, ll y){
     ret = x/y;
   }
   return ret;
+}
+
+template<class T> T cdv(const T &a, const T &b){
+    if(a%b==0){return a/b;}
+    if(a>=0){return (a/b)+1;}
+    else{return -((-a)/b);}
+}
+template<class T> T fdv(const T &a, const T &b){
+    if(a%b==0){return a/b;}
+    if(a>=0){return (a/b);}
+    else{return -((-a)/b)-1;}
 }

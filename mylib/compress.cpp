@@ -1,7 +1,8 @@
-{  // compress x
+// compress and destroy as
+void za(vll &as){
+  set<ll> s(a.begin(),a.end());
   map<ll, ll> mp;
-  rep(i, n) mp[xs[i]] = 0
   ll j = 0;
-  for (auto& x : mp) x.second = j++;
-  rep(i, n) xs[i] = mp[xs[i]]
+  for(auto  x : s) mp[x] = j++;
+  for(auto& x : a) x = mp[x];
 }
