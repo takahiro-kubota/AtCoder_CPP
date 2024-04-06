@@ -11,7 +11,7 @@
 #include <functional>
 #include <iomanip>
 #include <iostream>
-#include <map>
+#include <map>        
 #include <numeric>
 #include <queue>
 #include <regex>
@@ -19,7 +19,9 @@
 #include <stack>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
+#include <random>
 using namespace std;
 #include <atcoder/all>
 using namespace atcoder;
@@ -82,7 +84,7 @@ inline bool chmin(T &a, T b)
   }
   return 0;
 }
-constexpr ll INF = (1LL << 50);
+constexpr ll INF = (1LL << 60);
 constexpr double eps = 1E-10;
 //constexpr ll mod = 1000000007;
 constexpr ll mod = 998244353;
@@ -91,7 +93,6 @@ ll xadd(ll a, ll b) { return a+b; }
 ll xmax(ll a, ll b) { return max(a, b); }
 ll xmin(ll a, ll b) { return min(a, b); }
 ll xinf() { return INF; }
-ll xminf() { return -INF; }
 ll xzero() { return 0LL; }
 struct mint
 {
@@ -169,71 +170,38 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
-int extgcd(ll a, ll b, ll& x, ll& y){
-  if(b == 0){
-    x = 1, y = 0;
-    return a;
-  } else {
-    ll g = extgcd(b, a%b, y, x);
-    y -= (a/b)*x;
-    return g;
-  }
-}
+ll mymod(ll a, ll b) { return (a%b+b)%b; }
 
-ll cdv(ll x, ll y){
-  assert(y != 0);
-  if(x == 0) return 0;
-  ll ret;
-  if((x/(abs(x)))*(y/(abs(y))) == -1){
-    ll u = abs(x), v = abs(y);
-    ret = u/v*(-1);
-  } else {
-    ret = (x+y-1)/y;
-  }
-  return ret;
-}
-
-ll fdv(ll x, ll y){
-  assert(y != 0);
-  if(x == 0) return 0;
-  ll ret;
-  if((x/(abs(x)))*(y/(abs(y))) == -1){
-    ll u = abs(x), v = abs(y);
-    ret = (u+v-1)/v*(-1);
-  } else {
-    ret = x/y;
-  }
-  return ret;
-}
-
-int main() {
-  // ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0);
+int main(){
   cout << fixed << setprecision(15);
 
-  ll n, a, b, c, x;
-  cin >> n >> a >> b >> c >> x;
+  ll h, w, h1, w1, h2, w2;
+  cin >> h >> w >> h1 >> w1 >> h2 >> w2;
+
+  chmin(h2, h1);
+  chmin(w2, w1);
+
+  vvll cs(h+1, vll(w+1));
+  rep(i, h) rep(j, w){
+    ll a;
+    cin >> a;
+    cs[i+1][j+1] = a + cs[i][j+1] + cs[i+1][j] - cs[i][j];
+  }
+
+  vector<segtree<ll, xmax, xzero>> sts(h, segtree<ll, xmax, xzero>(w-w2+1));
+  rep(i, h-h2+1) rep(j, w-w2+1) sts[i].set(j, cs[i+h2][j+w2] - cs[i][j+w2] - cs[i+h2][j] + cs[i][j]);
+
+  vvll aoki(h-h1+1, vll(w-w1+1, 0));
+  rep(j, w-w1+1){
+    segtree<ll, xmax, xzero> st(h-h2+1);
+    rep(i, h-h2+1) st.set(i, sts[i].prod(j, j+w1-w2+1));
+    rep(i, h-h1+1) aoki[i][j] = st.prod(i, i+h1-h2+1);
+  }
 
   ll ans = 0;
-  repE(k, 1, n){
-    ll Y = x - c*k;
-    if(Y <= 0) break;
-    ll u, v;
-    ll g = extgcd(a, b, u, v);
-    if(Y%g != 0) continue;
-    Y /= g;
-    ll A = a/g, B = b/g;
-    u *= Y%B;
-    u = (u%B+B)%B;
-    v = (Y-A*u)/B;
-    ll l1 = cdv(1-u, B);
-    ll u1 = fdv(n-u, B);
-    ll l2 = cdv(v-n, A);
-    ll u2 = fdv(v-1, A);
-    ll lo = max(l1, l2);
-    ll up = min(u1, u2);
-    ll ad = up - lo + 1;
-    if(ad < 0) ad = 0;
-    ans += ad;
+  rep(i, h-h1+1) rep(j, w-w1+1){
+    ll t = cs[i+h1][j+w1] - cs[i][j+w1] - cs[i+h1][j] + cs[i][j];
+    chmax(ans, t-aoki[i][j]);
   }
 
   cout << ans << endl;
