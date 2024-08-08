@@ -1,3 +1,5 @@
+// sample ABC137
+
 void polyadd(const vm& as, const vm& bs, vm& cs){
   ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
   ll nc = max(na, nb);
@@ -17,7 +19,6 @@ void polymul(const vm& as, const vm& bs, vm& cs){
     cs[i+j] += as[i]*bs[j];
   }
 }
-// sample ABC137
 
 void polydiv(const vm& as, const vm& bs, vm& qs, vm& rs){
   ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
