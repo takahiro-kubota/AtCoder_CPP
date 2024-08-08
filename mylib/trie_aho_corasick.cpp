@@ -1,3 +1,5 @@
+// ABC268Ex AC sample
+
 #include <limits.h>
 #include <math.h>
 #include <stdio.h>
@@ -87,8 +89,8 @@ inline bool chmin(T &a, T b)
 constexpr ll INF = (1LL << 60);
 //constexpr ld eps = 1E-10;
 //constexpr ll mod = 1000000007;
-//constexpr ll mod = 998244353;
-ll mod;
+constexpr ll mod = 998244353;
+//ll mod;
 ll xadd(ll a, ll b) { return a+b; }
 ll xmax(ll a, ll b) { return max(a, b); }
 ll xmin(ll a, ll b) { return min(a, b); }
@@ -171,104 +173,90 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
-template<class T> T cdv(const T &a, const T &b){
-    if(a%b==0){return a/b;}
-    if(a>=0){return (a/b)+1;}
-    else{return -((-a)/b);}
-}
-template<class T> T fdv(const T &a, const T &b){
-    if(a%b==0){return a/b;}
-    if(a>=0){return (a/b);}
-    else{return -((-a)/b)-1;}
-}
-
 ll mymod(ll a, ll b) { return (a%b+b)%b; }
 
-// sample ABC137
-void polyadd(const vm& as, const vm& bs, vm& cs){
-  ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
-  ll nc = max(na, nb);
-  cs.assign(nc, 0);
-  rep(i, nc) {
-    mint a = i<na ? as[i] : 0;
-    mint b = i<nb ? bs[i] : 0;
-    cs[i] = a + b;
-  }
-}
+struct Trie {
+  ll n;
+  vector<map<char, ll>> to;
+  vll cnt;
 
-void polymul(const vm& as, const vm& bs, vm& cs){
-  ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
-  ll nc = na+nb-1;
-  cs.assign(nc, 0);
-  rep(i, na) rep(j, nb){
-    cs[i+j] += as[i]*bs[j];
+  Trie(){
+    n = 0;
+    add_new_node();
   }
-}
 
-void polydiv(const vm& as, const vm& bs, vm& qs, vm& rs){
-  ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
-  if(na < nb) {
-    qs = vm(1, 0);
-    rs = as;
-    return;
+  void add_new_node(){
+    to.push_back(map<char, ll>());
+    cnt.push_back(0);
+    n++;
   }
-  qs.assign(na-nb+1, 0);
-  vm cs = as;
-  mint binv = mint(1)/bs[nb-1];
-  rrepE(i, na-nb, 0){
-    qs[i] = cs[nb-1+i]*binv;
-    repE(j, 1, nb-1){
-      cs[nb-1+i-j] -= qs[i]*bs[nb-1-j];
+
+  ll add(const string& s) {
+    ll u = 0;
+    for (char c : s) {
+      if (!to[u].count(c)) {
+        to[u][c] = n;
+        add_new_node();
+      }
+      u = to[u][c];
+    }
+    cnt[u]++;
+    return u;
+  }
+
+  // Aho-Corasick
+  vll fail;
+  void init_ac(){ // build the failure link
+    fail.assign(n, -1);
+    queue<ll> q;
+    q.push(0);
+    while(!q.empty()){
+      ll u = q.front();
+      q.pop();
+      for(auto [c, v] : to[u]){
+        fail[v] = this->nxt(fail[u], c);
+        cnt[v] += cnt[fail[v]];
+        q.push(v);
+      }
     }
   }
-  rs.assign(nb-1, 0);
-  rrepE(i, nb-2, 0) rs[i] = cs[i];
-}
 
-void lcomp(vm& xs, vm& ys, vm& ans){
-  assert(xs.size()==ys.size());
-  ll p = xs.size();
-  // ptot
-  vm ptot = {1};
-  rep(i, p){
-    vm exi = {p-i, 1};
-    vm nptot;
-    polymul(ptot, exi, nptot);
-    swap(ptot, nptot);
+  ll nxt(ll v, char c) { // v =c=> v'
+    while(v != -1){
+      if(to[v].count(c)) return to[v][c];
+      v = fail[v];
+    }
+    return 0;
   }
 
-  // ans
-  ans.assign(p, 0); // b0, b1, ..., b_{p-1}
-  rep(i, p){
-    // coe
-    mint coe = 1;
-    rep(j, p) if(i!=j) coe *= (i-j);
-    coe = coe.inv()*ys[i];
-
-    // poly
-    vm exi = {p-i, 1};
-    vm qs, rs;
-    polydiv(ptot, exi, qs, rs);
-    rep(j, p) ans[j] += qs[j]*coe;
-  }
-}
+};
 
 int main(){
   cout << fixed << setprecision(15);
 
-  cin >> mod;
+  string s;
+  ll n;
+  cin >> s >> n;
 
-  ll p = mod;
-  
-  vm xs(p), ys(p);
-  rep(i, p) {
-    xs[i] = i;
-    cin >> ys[i];
+  Trie tr;
+
+  rep(i, n){
+    string t;
+    cin >> t;
+    tr.add(t);
   }
-  vm ans;
-  lcomp(xs, ys, ans);
+  tr.init_ac();
 
-  for(mint x : ans) cout << x << ' ';
+  ll v = 0, ans = 0;
+  for(char c : s){
+    v = tr.nxt(v, c);
+    if(tr.cnt[v]>0){
+      ans++;
+      v = 0;
+    }
+  }
 
+  cout << ans << endl;
+      
   return 0;
 }

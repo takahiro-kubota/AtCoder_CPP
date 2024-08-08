@@ -58,18 +58,6 @@ ll ipow(ll x, ll t) {
   return a;
 }
 
-ll ipow(ll x, ll t, ll m) {
-  if (t == 0) return 1;
-  ll a = ipow(x, t >> 1, m);
-  a *= a;
-  a %= m;
-  if (t & 1) {
-    a *= x;
-    a %= m;
-  }
-  return a;
-}
-
 l3 ipow(ll a, ll x, l3 m){
   l3 ans = 1, ml = a;
   while(x){
@@ -104,7 +92,7 @@ ll mysqrt(ll n){
 
 // 返り値: a と b の最大公約数
 // ax + by = gcd(a, b) を満たす (x, y) が格納される
-int extgcd(ll a, ll b, ll& x, ll& y){
+ll extgcd(ll a, ll b, ll& x, ll& y){
   if(b == 0){
     x = 1, y = 0;
     return a;

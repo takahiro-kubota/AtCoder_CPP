@@ -46,42 +46,42 @@ struct SegTree {
 };
 
 // range update, one-point minimum
-// template <typename T>
-// struct SegTree {
-//   int n, ofst;
-//   vector<T> arr;
+template <typename T>
+struct SegTree {
+  int n, ofst;
+  vector<T> arr;
 
-//   SegTree(const int _n) {
-//     n = 1;
-//     while (n < 2 * _n) n <<= 1;
-//     arr.assign(n, INF);
-//     ofst = n >> 1;
-//   }
+  SegTree(const int _n) {
+    n = 1;
+    while (n < 2 * _n) n <<= 1;
+    arr.assign(n, INF);
+    ofst = n >> 1;
+  }
 
-//   int get(int i) {
-//     i += ofst;
-//     int ret = arr[i];    
-//     while (true) {
-//       i /= 2;
-//       if (i == 0) break;
-//       chmin(ret, arr[i]);
-//     }
-//     return ret;
-//   }
+  int get(int i) {
+    i += ofst;
+    int ret = arr[i];    
+    while (true) {
+      i /= 2;
+      if (i == 0) break;
+      chmin(ret, arr[i]);
+    }
+    return ret;
+  }
 
-//   void update(int l, int r, int x) { // [l, r)
-//     l += ofst, r += ofst;
-//     while (l < r) {
-//       if (l % 2 == 1) {
-//         arr[l] = x;
-//         l++;
-//       }
-//       l /= 2;
-//       if (r % 2 == 1) {
-//         arr[r-1] = x;
-//         r--;
-//       }
-//       r /= 2;
-//     }
-//   }
-// };
+  void update(int l, int r, int x) { // [l, r)
+    l += ofst, r += ofst;
+    while (l < r) {
+      if (l % 2 == 1) {
+        arr[l] = x;
+        l++;
+      }
+      l /= 2;
+      if (r % 2 == 1) {
+        arr[r-1] = x;
+        r--;
+      }
+      r /= 2;
+    }
+  }
+};

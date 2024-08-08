@@ -1,3 +1,5 @@
+// AC code for ABC362 F
+
 #include <limits.h>
 #include <math.h>
 #include <stdio.h>
@@ -87,8 +89,8 @@ inline bool chmin(T &a, T b)
 constexpr ll INF = (1LL << 60);
 //constexpr ld eps = 1E-10;
 //constexpr ll mod = 1000000007;
-//constexpr ll mod = 998244353;
-ll mod;
+constexpr ll mod = 998244353;
+//ll mod;
 ll xadd(ll a, ll b) { return a+b; }
 ll xmax(ll a, ll b) { return max(a, b); }
 ll xmin(ll a, ll b) { return min(a, b); }
@@ -171,104 +173,52 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
-template<class T> T cdv(const T &a, const T &b){
-    if(a%b==0){return a/b;}
-    if(a>=0){return (a/b)+1;}
-    else{return -((-a)/b);}
-}
-template<class T> T fdv(const T &a, const T &b){
-    if(a%b==0){return a/b;}
-    if(a>=0){return (a/b);}
-    else{return -((-a)/b)-1;}
-}
-
 ll mymod(ll a, ll b) { return (a%b+b)%b; }
-
-// sample ABC137
-void polyadd(const vm& as, const vm& bs, vm& cs){
-  ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
-  ll nc = max(na, nb);
-  cs.assign(nc, 0);
-  rep(i, nc) {
-    mint a = i<na ? as[i] : 0;
-    mint b = i<nb ? bs[i] : 0;
-    cs[i] = a + b;
-  }
-}
-
-void polymul(const vm& as, const vm& bs, vm& cs){
-  ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
-  ll nc = na+nb-1;
-  cs.assign(nc, 0);
-  rep(i, na) rep(j, nb){
-    cs[i+j] += as[i]*bs[j];
-  }
-}
-
-void polydiv(const vm& as, const vm& bs, vm& qs, vm& rs){
-  ll na = as.size(), nb = bs.size(); // nx = deg(x)+1
-  if(na < nb) {
-    qs = vm(1, 0);
-    rs = as;
-    return;
-  }
-  qs.assign(na-nb+1, 0);
-  vm cs = as;
-  mint binv = mint(1)/bs[nb-1];
-  rrepE(i, na-nb, 0){
-    qs[i] = cs[nb-1+i]*binv;
-    repE(j, 1, nb-1){
-      cs[nb-1+i-j] -= qs[i]*bs[nb-1-j];
-    }
-  }
-  rs.assign(nb-1, 0);
-  rrepE(i, nb-2, 0) rs[i] = cs[i];
-}
-
-void lcomp(vm& xs, vm& ys, vm& ans){
-  assert(xs.size()==ys.size());
-  ll p = xs.size();
-  // ptot
-  vm ptot = {1};
-  rep(i, p){
-    vm exi = {p-i, 1};
-    vm nptot;
-    polymul(ptot, exi, nptot);
-    swap(ptot, nptot);
-  }
-
-  // ans
-  ans.assign(p, 0); // b0, b1, ..., b_{p-1}
-  rep(i, p){
-    // coe
-    mint coe = 1;
-    rep(j, p) if(i!=j) coe *= (i-j);
-    coe = coe.inv()*ys[i];
-
-    // poly
-    vm exi = {p-i, 1};
-    vm qs, rs;
-    polydiv(ptot, exi, qs, rs);
-    rep(j, p) ans[j] += qs[j]*coe;
-  }
-}
 
 int main(){
   cout << fixed << setprecision(15);
 
-  cin >> mod;
+  ll n;
+  cin >> n;
 
-  ll p = mod;
-  
-  vm xs(p), ys(p);
-  rep(i, p) {
-    xs[i] = i;
-    cin >> ys[i];
+  vvll to(n);
+  rep(i, n-1){
+    ll u, v;
+    cin >> u >> v;
+    u--, v--;
+    to[u].push_back(v);
+    to[v].push_back(u);
   }
-  vm ans;
-  lcomp(xs, ys, ans);
 
-  for(mint x : ans) cout << x << ' ';
+  vll nc(n, 0);
+  ll c = -1; // centoroid id
+  auto f = [&](auto f, ll u, ll p) -> void {
+    nc[u] = 1;
+    ll mx = 0;
+    for(ll v : to[u]) if(v != p) {
+      f(f, v, u);
+      nc[u] += nc[v];
+      chmax(mx, nc[v]);
+    }
+    chmax(mx, n-nc[u]);
+    if(n >= 2*mx) c = u;
+  };
+  f(f, 0, -1);
+
+  vll us;
+  auto g = [&](auto g, ll u, ll p) -> void {
+    for(ll v : to[u]) if(v != p) {
+      g(g, v, u);
+    }
+    us.push_back(u);
+  };
+  g(g, c, -1);
+
+  // if(n%2) us.pop_back(); // unecessary?
+
+  rep(i, n/2){
+    printf("%lld %lld\n", us[i]+1, us[i+n/2]+1);
+  }
 
   return 0;
 }

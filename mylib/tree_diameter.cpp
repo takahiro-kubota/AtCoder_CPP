@@ -1,20 +1,20 @@
-  vvll to(n);
+  vvP to(n);
   rep(i, n-1){
-    ll a, b;
-    cin >> a >> b;
+    ll a, b, c;
+    cin >> a >> b >> c;
     a--, b--;
-    to[a].push_back(b);
-    to[b].push_back(a);
+    to[a].emplace_back(b, c);
+    to[b].emplace_back(a, c);
   }
 
   auto f = [&](auto f, ll u, ll p) -> P {
     P ret = {0, u}; // {dist from u, node idx}
-    for(ll v : to[u]){
+    for(auto [v, c] : to[u]){
       if(v == p) continue;
-      chmax(ret, f(f, v, u));
+      auto [dv, idx] = f(f, v, u);
+      chmax(ret, P(dv+c, idx));
     }
-    auto [dist, node] = ret;
-    return P(dist+1, node);
+    return ret;
   };
 
   auto [da, a] = f(f, 0, -1);

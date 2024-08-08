@@ -84,36 +84,3 @@ get_k() : kを取得
 size() : 要素数を取得
 */
 // PrioritySumStructure(昇(降)順k個の和) ------------------------------
-
-struct S {
-  ll h;
-  multiset<ll> s, t;
-  S(ll h): h(h) {}
-  void fix() {
-    while (h <= 0) {
-      h += *s.rbegin();
-      t.insert(*s.rbegin());
-      s.erase(prev(s.end()));
-    }
-    while (t.size() && h > *t.begin()) {
-      h -= *t.begin();
-      s.insert(*t.begin());
-      t.erase(t.begin());
-    }
-  }
-  void add(ll x) {
-    if (t.size() && *t.begin() < x) t.insert(x);
-    else h -= x, s.insert(x);
-    fix();
-  }
-  void del(ll x) {
-    if (t.find(x) != t.end()) {
-      t.erase(t.find(x));
-    } else {
-      h += x;
-      s.erase(s.find(x));
-      fix();
-    }
-  }
-  int get() { return t.size();}
-};

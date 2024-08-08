@@ -170,7 +170,6 @@ using vm = vector<mint>;
 using vvm = vector<vm>;
 using vvvm = vector<vvm>;
 
-
 struct Trie {
   ll n;
   vector<map<char, ll>> to;
