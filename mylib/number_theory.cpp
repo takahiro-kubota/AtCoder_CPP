@@ -26,7 +26,7 @@ map<ll, ll> prime_factor(ll n) {
   return ret;
 }
 
-ll mynchoosek(ll n, ll r) {
+ll nchoosek(ll n, ll r) {
   if (n < r) return 0;
   if (n - r < r) r = n - r;
   ll ret = 1;
@@ -76,7 +76,7 @@ for (ll i = 1; i*i <= n; i++){
   }
 }
 
-ll mysqrt(ll n){
+ll isqrt_floor(ll n){
   __uint128_t nn = n;
   __uint128_t l = 0, r = 1E19;
   while(l + 1 < r){
@@ -101,32 +101,6 @@ ll extgcd(ll a, ll b, ll& x, ll& y){
     y -= (a/b)*x;
     return g;
   }
-}
-
-ll cdv(ll x, ll y){
-  assert(y != 0);
-  if(x == 0) return 0;
-  ll ret;
-  if((x/(abs(x)))*(y/(abs(y))) == -1){
-    ll u = abs(x), v = abs(y);
-    ret = u/v*(-1);
-  } else {
-    ret = (x+y-1)/y;
-  }
-  return ret;
-}
-
-ll fdv(ll x, ll y){
-  assert(y != 0);
-  if(x == 0) return 0;
-  ll ret;
-  if((x/(abs(x)))*(y/(abs(y))) == -1){
-    ll u = abs(x), v = abs(y);
-    ret = (u+v-1)/v*(-1);
-  } else {
-    ret = x/y;
-  }
-  return ret;
 }
 
 template<class T> T cdv(const T &a, const T &b){

@@ -5,9 +5,9 @@
   while (!q.empty()) {
     auto [du, u] = q.top();
     q.pop();
-    if (dp[u] < du) continue;
-    for (auto [v, c] : to[u]) {
-      if (chmin(dp[v], du + c)) {
+    if(dp[u] < du) continue;
+    for(auto [v, c] : to[u]){
+      if(chmin(dp[v], du + c)){
         q.emplace(dp[v], v);
       }
     }

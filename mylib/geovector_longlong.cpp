@@ -50,3 +50,13 @@ ostream& operator<<(ostream& os, const V& v) {
   return os;
 }
 
+// ps: 自己交叉なしの多角形 (凹でも可)
+// 面積*2を返す
+ll get_polygon_area(vector<V>& ps){
+  ll np = ps.size();
+  ll s2 = 0;
+  rep(i, np){
+    s2 += ps[i].cross(ps[(i+1)%np]);
+  }
+  return abs(s2);
+}

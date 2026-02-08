@@ -86,6 +86,8 @@
         "variant": "cpp",
         "cfloat": "cpp",
         "cassert": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "__tree": "cpp",
+        "__split_buffer": "cpp"
     }
 }

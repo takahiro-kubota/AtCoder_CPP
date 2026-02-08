@@ -13,3 +13,15 @@ bool my_next_comb(vll& ps, ll midx) {
   }
   return false;
 }
+
+// isからm要素を選び並べて得られる配列達を返す
+vvll permutations(vll is, ll m){
+  // 要高速化？
+  vvll ans;
+  for(auto js : combinations(is, m)){
+    do {
+      ans.push_back(js);
+    } while(next_permutation(All(js)));
+  }
+  return ans;
+}

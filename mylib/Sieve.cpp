@@ -21,6 +21,8 @@ struct Sieve {
     }
     return res;
   }
+
+  // factor たぶんバグるか意図がわかっていないので、使い所を間違える可能性あり
   vector<pair<int, int>> factor(int x) {
     vector<int> fl = factorList(x);
     if (fl.size() == 0) return {};
